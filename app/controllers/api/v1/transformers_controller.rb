@@ -7,7 +7,7 @@ module Api
       # post /transform/api/v1
       def transform
         trasnformer = JsonEtl::Transform::Process.new
-        trasnformer.run(transfomer_params.to_json)
+        trasnformer.run(params.to_json)
         @response = trasnformer.output
         render template: 'api/v1/transformers/response.json.erb'             
       end
