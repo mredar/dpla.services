@@ -241,10 +241,12 @@ task :transform do
 
       },         
     }
-  
+
+   puts profile.to_json  
+   
    transformer = JsonEtl::Transform::Process.new
    transformer.run(profile.to_json)
-   puts transformer.output_records.to_json
+   # puts transformer.output_records.to_json
    # pp(transformer.output_records)
    # pp(transformer.inspect_errors)  
    # puts transformer.output['resumption_token']
