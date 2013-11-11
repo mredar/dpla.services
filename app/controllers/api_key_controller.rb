@@ -1,5 +1,6 @@
 class ApiKeyController < ApplicationController
-
+  skip_before_action :verify_authenticity_token
+  
   def create 
     @api_key = ApiKey.new(api_params)
     @api_key.save 
