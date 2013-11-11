@@ -56,6 +56,7 @@ gem "rails_best_practices"
 gem 'deep_merge'
 
 group :development do
+  gem 'rest-client'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
