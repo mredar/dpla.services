@@ -3,7 +3,7 @@ DplaEtl::Application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       get 'extract' => 'extractors#extract'
-      get 'transform' => 'transformers#transform'    
+      post 'transform' => 'transformers#transform'    
     end
   end
 
