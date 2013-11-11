@@ -2,6 +2,7 @@ module Api
  module V1
     class TransformersController < ApplicationController
       before_filter :restrict_access 
+      skip_before_action :verify_authenticity_token
 
       # GET /transform/api/v1
       def extract
