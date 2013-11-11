@@ -3,8 +3,8 @@ require 'json'
 require 'open-uri'
 
 
-require '/home/fenne035/dev/dpla/dpla.etl/lib/json_etl/transform/utilities.rb'
-require '/home/fenne035/dev/dpla/dpla.etl/lib/json_etl/transform/process.rb'
+#require '/home/fenne035/dev/dpla/dpla.etl/lib/json_etl/transform/utilities.rb'
+#require '/home/fenne035/dev/dpla/dpla.etl/lib/json_etl/transform/process.rb'
 
 
 desc "Run the ETL system for a given endpoint"
