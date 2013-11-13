@@ -8,8 +8,8 @@ module JsonEtl
 
       attr_reader :output
 
-      def output_records
-        @output['records']
+      def output_json
+        @output.to_json
       end
 
       def inspect_errors
@@ -85,13 +85,15 @@ module JsonEtl
           # Get the field value(s) from a given field path
           vals = field_val_set(field_path, attributes, record)
 
-          # We get a single originating field path but pass the whole record
-          # To allow processors to gather data from additional fields
-          field_values = (attributes["processors"]) ? process_field(attributes["processors"], vals, record) : vals
+          if (vals)
+            # We get a single originating field path but pass the whole record
+            # To allow processors to gather data from additional fields
+            field_values = (attributes["processors"]) ? process_field(attributes["processors"], vals, record) : vals
 
-          # Take the field values for a given field, map them to a dest field and merge these
-          # destination fields back into the record
-          dest_record = process_desitnations(field_values, attributes["field_dests"], dest_record)
+            # Take the field values for a given field, map them to a dest field and merge these
+            # destination fields back into the record
+            dest_record = process_desitnations(field_values, attributes["field_dests"], dest_record)
+          end
 
         end
         dest_record
