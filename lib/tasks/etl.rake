@@ -10,7 +10,7 @@ desc "Run the ETL system for a given endpoint"
 task :transform do
 
    profile = File.read("#{Rails.root}/test/fixtures/profile.json")
-   # pp(RestClient.post "localhost:3000/api/v1/transform", profile, :content_type => :json, :accept => :json)
+   pp(RestClient.post "http://glacial-ocean-9697.herokuapp.com/api/v1/transform", profile, :content_type => :json, :accept => :json)
    # transformer = JsonEtl::Transform::Process.new
    # transformer.run(profile)
    # puts transformer.output_records.to_json
