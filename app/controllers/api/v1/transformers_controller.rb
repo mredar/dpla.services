@@ -6,13 +6,13 @@ module Api
 
       # post /transform/api/v1
       def transform
-        trasnformer = JsonEtl::Transform::Process.new
-        trasnformer.run(params.to_json)
-        @response = trasnformer.output
+        transformer = JsonEtl::Transform::Process.new
+        transformer.run(params[:profile], params[:records], params[:enrichments])
+        @response = transformer.output
         render template: 'api/v1/transformers/response.json.erb'             
       end
 
-      private
+      private 
         def restrict_access      
           api_key = ApiKey.find_by_access_token(params[:access_token])
           head :unauthorized unless api_key
