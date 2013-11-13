@@ -16,29 +16,19 @@ module JsonEtl
         @output['errors'].inspect
       end
 
-      def run(profile_json)
-        @output = {} 
+      def run(profile, records, enrichments)
+        profile, records, enrichments = [profile, records, enrichments].map! { |data| JSON.parse(data) }
+        records_profile = profile['extractor']['records']
+        @output = {}
         @output['errors'] = []       
-        profile = JSON.parse(profile_json)
-
-        # Records can be either passed in via the data array or by specifying
-        # a URL to an array of records
-        response = (profile["records_url"]) ? JSON.parse(fetch_remote_data(profile["records_url"])) : JSON.parse(profile.delete("data"))
-
-        # A bit icky passing along extractor metadata via the transfomer, but 
-        # this allows us to pass an extraction URL right to the transformer
-        # and still remember the next step for the extractor without having 
-        # to pass all the metadata from the extractor, to the pipeline and
-        # then back to the transformer
-        @output['resumption_token'] = (response.has_key?('resumption_token')) ? response['resumption_token'] : nil
-        enrichments = populate_enrichments(profile)
-        @output['records'] = transform_records(fetch_slice(profile["records_path"], response), enrichments, profile)      
+        @output['resumption_token'] = (records.has_key?('resumption_token')) ? records['resumption_token'] : nil
+        enrichments = process_enrichments(enrichments)
+        @output['records'] = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
       end
 
       # Loop over and transform records according to the provided profile
       def transform_records(records, enrichments, profile)
         output = []
-
         records = record_slice(records, profile);
         records.each do |record|
           record = enrich_record(record, enrichments)
@@ -61,26 +51,25 @@ module JsonEtl
             slice = fetch_slice(e["options"]['record_path'], record)
             if (slice[record_field_name])
               enrichment = {}
-              enrichment[record_field_name] = e['data'][slice[record_field_name]]
+              enrichment[record_field_name] = e['enrichment'][slice[record_field_name]]
               record = record.merge(enrichment)              
             end
           end
           record
       end
 
-      # Populate values that should be available to each record
-      # e.g. collection data
-      def populate_enrichments(profile)
-        enrichments = []
-        if (profile['record_enrichments'])
-          profile['record_enrichments'].each do |opts|
-            data = JSON.parse(fetch_remote_data(opts["url"]))
-            data = (opts['origin_path']) ? fetch_slice(opts['origin_path'], data) : data
-            data = add_lookup_keys(opts['origin_field_name'], data)
-            enrichments << { "options" => opts, "data" => data }
+      # Get the portion of the enrichment that we want, index it with a 
+      # provided key
+      def process_enrichments(enrichments)
+        output = []
+        if (!enrichments.empty?)
+          enrichments.each do |enrich|
+            enrichment = (enrich['transform']['origin_path']) ? fetch_slice(enrich['transform']['origin_path'], enrich['enrichment']) : enrich['enrichment']
+            enrichment = add_lookup_keys(enrich['transform']['origin_field_name'], enrichment)
+            output << { "options" => enrich['transform'], "enrichment" => enrichment }
           end
         end
-        enrichments
+        output
       end
 
       # Process each field
