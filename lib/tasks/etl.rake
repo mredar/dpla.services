@@ -1,7 +1,6 @@
 require 'rake'
 require 'json'
 require 'open-uri'
-require 'rest_client'
 
 require "#{Rails.root}/lib/json_etl/transform/utilities.rb"
 require "#{Rails.root}/lib/json_etl/transform/process.rb"
