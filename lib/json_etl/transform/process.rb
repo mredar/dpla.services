@@ -12,18 +12,12 @@ module JsonEtl
         @output.to_json
       end
 
-      def inspect_errors
-        @output['errors'].inspect
-      end
-
       def run(profile, records, enrichments)
         profile, records, enrichments = [profile, records, enrichments].map! { |data| JSON.parse(data) }
         records_profile = profile['extractor']['records']
-        @output = {}
-        @output['errors'] = []       
         @output['resumption_token'] = (records.has_key?('resumption_token')) ? records['resumption_token'] : nil
         enrichments = process_enrichments(enrichments)
-        @output['records'] = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
+        @output = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
       end
 
       # Loop over and transform records according to the provided profile
@@ -136,7 +130,7 @@ module JsonEtl
       def fetch_remote_data(url)
         open(url) { |e| 
           if (e.status[0] != '200') 
-            @output['errors'] << "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}"
+            @output = {:error => "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}" }
           end
           return e.read
         }
@@ -156,7 +150,7 @@ module JsonEtl
         if (result.has_key?("status"))
           # TODO: allow the profile to set a unique identifier so that we can add this
           # to logs and later use for preventing duplicate db entries?
-          @output['errors'] << "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}"
+          @output = {:error => "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}" }
           []
           return 
         else
