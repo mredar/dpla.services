@@ -15,7 +15,6 @@ module JsonEtl
       def run(profile, records, enrichments)
         profile, records, enrichments = [profile, records, enrichments].map! { |data| JSON.parse(data) }
         records_profile = profile['extractor']['records']
-        @output['resumption_token'] = (records.has_key?('resumption_token')) ? records['resumption_token'] : nil
         enrichments = process_enrichments(enrichments)
         @output = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
       end
