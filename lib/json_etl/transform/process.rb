@@ -16,7 +16,9 @@ module JsonEtl
         profile, records, enrichments = [profile, records, enrichments].map! { |data| JSON.parse(data) }
         records_profile = profile['extractor']['records']
         enrichments = process_enrichments(enrichments)
-        @output = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
+        @output = {}
+        @output['next_batch_params'] = (defined?(records['next_batch_params'])) ? records['next_batch_params'] : nill
+        @output['records'] = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
       end
 
       # Loop over and transform records according to the provided profile
