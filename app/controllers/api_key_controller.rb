@@ -12,3 +12,6 @@ private
     params.require(:api_key).permit(:email)
   end  
 end
+
+
+# curl -d "api_key[email]=example@example.com" localhost:3000/api_key
