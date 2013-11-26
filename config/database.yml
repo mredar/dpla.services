@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['DEV_DB_NAME'] %>
-  username: <%= ENV['DEV_USERNAME'] %>
-  password: <%= ENV['DEV_PASSWORD'] %>
+  database: <%= ENV['DPLA_DEV_DB_NAME'] %>
+  username: <%= ENV['DPLA_DEV_USERNAME'] %>
+  password: <%= ENV['DPLA_DEV_PASSWORD'] %>
   pool: 5
-  port: <%= ENV['DEV_PORT'] %>
+  port: <%= ENV['DPLA_DEV_PORT'] %>
   host: 127.0.0.1
 
 production:
