@@ -1,7 +1,6 @@
 class Extractor
   def self.fetch(params)
-
-    params[:query_limiters] = (params[:query_limiters] != nil) ? CGI::unescape(params[:query_limiters]) : params[:query_limiters]
+    params[:query_params] = params[:query_params] ? CGI::unescape(params[:query_params]) : params[:query_params]
     if (params[:endpoint_type] == 'oai_dc')
       return JsonEtl::Extract::OaiDc.fetch(params)
     else
@@ -11,6 +10,6 @@ class Extractor
 
   private
   def self.sha(params)
-     Digest::SHA1.hexdigest("#{params[:endpoint]}#{params[:endpoint_type]}#{params[:query_limiters]}")
+     Digest::SHA1.hexdigest("#{params[:endpoint]}#{params[:endpoint_type]}#{params[:query_params]}")
   end
 end
