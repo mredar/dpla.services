@@ -18,7 +18,7 @@ module JsonEtl
         enrichments = process_enrichments(enrichments)
         @output = {}
         @output['next_batch_params'] = (defined?(records['next_batch_params'])) ? records['next_batch_params'] : nill
-        @output['records'] = transform_records(fetch_slice(profile['extractor']['records']["path"], records), enrichments, profile['transformer'])      
+        @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["path"]), enrichments, profile['transformer'])      
       end
 
       # Loop over and transform records according to the provided profile
@@ -42,11 +42,11 @@ module JsonEtl
       # at a join point specified by field names and paths
       def enrich_record(record, enrichments)
           enrichments.each do |e|
-            record_field_name = e["options"]["record_field_name"]
-            slice = fetch_slice(e["options"]['record_path'], record)
-            if (slice[record_field_name])
+            opts = e["options"];
+            slice = record.fetch_slice(opts['record_path'])
+            if (slice[opts["record_field_name"]])
               enrichment = {}
-              enrichment[record_field_name] = e['enrichment'][slice[record_field_name]]
+              enrichment[opts["record_field_name"]] = e['enrichment'][opts["origin_field_name"]  ]
               record = record.merge(enrichment)              
             end
           end
@@ -59,8 +59,8 @@ module JsonEtl
         output = []
         if (!enrichments.empty?)
           enrichments.each do |enrich|
-            enrichment = (enrich['transform']['origin_path']) ? fetch_slice(enrich['transform']['origin_path'], enrich['enrichment']) : enrich['enrichment']
-            enrichment = add_lookup_keys(enrich['transform']['origin_field_name'], enrichment)
+            enrichment = (enrich['transform']['origin_path']) ? enrich['enrichment'].fetch_slice(enrich['transform']['origin_path']) : enrich['enrichment']
+            enrichment = enrichment.to_keyed_hash(enrich['transform']['origin_field_name'])
             output << { "options" => enrich['transform'], "enrichment" => enrichment }
           end
         end
@@ -99,7 +99,7 @@ module JsonEtl
           # by the provided regex
           destinations.each do |dest|
             field_values = fetch_values(values, dest["pattern"])
-            field_values = (field_values.is_a?(Array)) ? deep_clean(field_values) : field_values      
+            field_values = (field_values.is_a?(Array)) ? field_values.deep_clean : field_values      
             field_values = (dest["label"]) ? apply_labels(field_values, dest["label"]) : field_values
             field = (defined?(dest)) ? field_hash_from_path(dest["path"], dest["name"], field_values) : {dest["name"] => field_values}
             record.deep_merge!(field)
@@ -111,7 +111,7 @@ module JsonEtl
         if field_path == '--LITERAL--'
           vals = attributes['value']
         else
-          vals = fetch_slice(field_path, record)
+          vals = record.fetch_slice(field_path)
         end
       end
 
@@ -131,7 +131,7 @@ module JsonEtl
       def fetch_remote_data(url)
         open(url) { |e| 
           if (e.status[0] != '200') 
-            @output = {:error => "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}" }
+            @output = {'errors' => "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}" }
           end
           return e.read
         }
@@ -151,7 +151,7 @@ module JsonEtl
         if (result.has_key?("status"))
           # TODO: allow the profile to set a unique identifier so that we can add this
           # to logs and later use for preventing duplicate db entries?
-          @output = {:error => "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}" }
+          @output = {'errors' => "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}" }
           []
           return 
         else
