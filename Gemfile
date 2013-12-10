@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
 
 # Use sqlite3 as the database for Active Record
 gem 'pg'
@@ -54,6 +54,7 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem "brakeman", :require => false
 gem "rails_best_practices"
 gem 'deep_merge'
+gem 'attempt'
 
 group :development do
   gem 'rest-client'
@@ -64,4 +65,10 @@ group :development do
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
   gem 'coderay', '~> 1.0.5'
+end
+
+group :test do
+  gem "minitest"
+  gem "sqlite3"
+  gem 'turn'
 end
