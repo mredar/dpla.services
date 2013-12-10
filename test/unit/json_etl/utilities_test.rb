@@ -2,11 +2,9 @@ require 'test_helper'
 
 class TestJsonEtlUtilities < ActiveSupport::TestCase
 
-
   def test_add_lookup_keys
-    hash = {"is" => {"it" => {"caturday" => ['yes', 'no', 'kthksbai'], "a" => "cheesburger"}}}
-    keyed = JsonEtl::Transform::Utilities.add_lookup_keys('caturday', 'is/it', hash)
-    assert_equal(["yes", "no", "kthksbai"], keyed) 
+    keyed = [{'setSpec' => 'caturday', 'title' => 'noms'},{'setSpec' => 'ceilingCat', 'title' => 'AhBite'}].to_keyed_hash('setSpec')
+    assert_equal({"caturday"=>{"setSpec"=>"caturday", "title"=>"noms"}, "ceilingCat"=>{"setSpec"=>"ceilingCat", "title"=>"AhBite"}}, keyed) 
   end
  
   def test_apply_label
@@ -36,20 +34,16 @@ class TestJsonEtlUtilities < ActiveSupport::TestCase
       { "expected" => [["heck", "yeah!"]], "original" => [nil, nil, ["heck", "yeah!"]]},  
     ]          
     arrs.each do |arr|
-      returned = JsonEtl::Transform::Utilities.deep_clean(arr["original"])
+      returned = arr["original"].deep_clean
       assert_equal(arr["expected"], returned)
     end
   end
 
   def test_fetch_slice
     hash_original = {"blerg" => {"blorg" => {"whoops" => "oops", "blarg" => "bleg"}}}
-    hash_result = JsonEtl::Transform::Utilities.fetch_slice("/", hash_original)
-    assert_equal(hash_original, hash_result)
-    hash_result = JsonEtl::Transform::Utilities.fetch_slice("blerg", hash_original)
-    assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}}, hash_result)    
-    hash_original = {"blerg" => {"blorg" => {"whoops" => "oops", "blarg" => "bleg"}}}
-    hash_result = JsonEtl::Transform::Utilities.fetch_slice("blerg/blorg/whoops", hash_original)
-    assert_equal('oops', hash_result)    
+    assert_equal(hash_original, hash_original.fetch_slice("/"))
+    assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}},  hash_original.fetch_slice("blerg"))    
+    assert_equal('oops', hash_original.fetch_slice("blerg/blorg/whoops"))    
   end
 
   def test_hash_from_path
