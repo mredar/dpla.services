@@ -71,4 +71,5 @@ group :test do
   gem "minitest"
   gem "sqlite3"
   gem 'turn'
+  gem 'rest-client'
 end
