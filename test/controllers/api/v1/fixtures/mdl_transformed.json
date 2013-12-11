@@ -1,0 +1,327 @@
+{
+    "next_batch_params": "resumptionToken%3D%3A%3A%3Aoai_dc%3A1000",
+    "records": [
+        {
+            "@context": {
+                "edm": "http://www.europeana.eu/schemas/edm/",
+                "isShownAt": "edm:isShownAt",
+                "dpla": "http://dp.la/terms/",
+                "dataProvider": "edm:dataProvider",
+                "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+                "state": "dpla:state",
+                "hasView": "edm:hasView",
+                "provider": "edm:provider",
+                "collection": "dpla:aggregation",
+                "object": "edm:object",
+                "stateLocatedIn": "dpla:stateLocatedIn",
+                "begin": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeStart"
+                },
+                "@vocab": "http://purl.org/dc/terms/",
+                "LCSH": "http://id.loc.gov/authorities/subjects",
+                "sourceResource": "edm:sourceResource",
+                "name": "xsd:string",
+                "coordinates": "dpla:coordinates",
+                "end": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeEnd"
+                },
+                "originalRecord": "dpla:originalRecord"
+            },
+            "title": "Svenska Amerikanska Posten, full page advertisement, Minneapolis, Minnesota",
+            "sourceResource": {
+                "title": "Svenska Amerikanska Posten, full page advertisement, Minneapolis, Minnesota",
+                "description": "The 1903 convention of the American Union of Swedish Singers was commemorated with a color page in Svenska Amerikanska Posten.",
+                "subject": [
+                    {
+                        "name": "Singers"
+                    },
+                    {
+                        "name": "Singing"
+                    },
+                    {
+                        "name": "Musicians"
+                    },
+                    {
+                        "name": "Newspapers"
+                    },
+                    {
+                        "name": "Music festivals"
+                    },
+                    {
+                        "name": "American Union of Swedish Singers"
+                    }
+                ],
+                "rights": "This image may not be reproduced for any reason without written permission from the American Swedish Institute",
+                "relation": [
+                    "Immigration and Ethnicity"
+                ],
+                "format": "Advertisements",
+                "collection": {
+                    "title": "American Swedish Institute (Digital collection)",
+                    "description": "The American Swedish Institute, a historic museum dedicated to the celebration of Swedish culture, is home to collections on the history of Swedish immigration to the United States, particularly immigration to Minnesota, Swedish-American life and culture and the history and culture of Sweden as it has influenced Swedish America. The American Swedish Institute contributed to Minnesota Reflections images from, Svenska Amerikanska Posten, a Swedish-American newspaper, taken between 1898 and 1903."
+                },
+                "type": "Text"
+            },
+            "identifier": "oai:reflections.mndigital.org:swede/4",
+            "dataProvider": "American Swedish Institute, 2600 Park Avenue South, Minneapolis, MN 55407; http://ASImn.org",
+            "provider": {
+                "@id": "http://dp.la/api/contributor/mdl",
+                "name": "Minnesota Digital Library"
+            }
+        },
+        {
+            "@context": {
+                "edm": "http://www.europeana.eu/schemas/edm/",
+                "isShownAt": "edm:isShownAt",
+                "dpla": "http://dp.la/terms/",
+                "dataProvider": "edm:dataProvider",
+                "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+                "state": "dpla:state",
+                "hasView": "edm:hasView",
+                "provider": "edm:provider",
+                "collection": "dpla:aggregation",
+                "object": "edm:object",
+                "stateLocatedIn": "dpla:stateLocatedIn",
+                "begin": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeStart"
+                },
+                "@vocab": "http://purl.org/dc/terms/",
+                "LCSH": "http://id.loc.gov/authorities/subjects",
+                "sourceResource": "edm:sourceResource",
+                "name": "xsd:string",
+                "coordinates": "dpla:coordinates",
+                "end": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeEnd"
+                },
+                "originalRecord": "dpla:originalRecord"
+            },
+            "title": "Svenska Amerikanska Posten offices, Minneapolis, Minnesota",
+            "sourceResource": {
+                "title": "Svenska Amerikanska Posten offices, Minneapolis, Minnesota",
+                "description": "A February 1899 fire destroyed a building near the offices of Svenska Amerikanska Posten, visible in the photograph.",
+                "subject": [
+                    {
+                        "name": "Fires"
+                    },
+                    {
+                        "name": "Newspapers"
+                    },
+                    {
+                        "name": "Winter"
+                    },
+                    {
+                        "name": "Snow"
+                    },
+                    {
+                        "name": "Svenska Amerikanska Posten"
+                    },
+                    {
+                        "name": "Fires"
+                    },
+                    {
+                        "name": "Newspapers"
+                    }
+                ],
+                "rights": "This image may not be reproduced for any reason without written permission from the American Swedish Institute",
+                "relation": [
+                    "Immigration and Ethnicity"
+                ],
+                "format": "Black-and-white photographs",
+                "collection": {
+                    "title": "American Swedish Institute (Digital collection)",
+                    "description": "The American Swedish Institute, a historic museum dedicated to the celebration of Swedish culture, is home to collections on the history of Swedish immigration to the United States, particularly immigration to Minnesota, Swedish-American life and culture and the history and culture of Sweden as it has influenced Swedish America. The American Swedish Institute contributed to Minnesota Reflections images from, Svenska Amerikanska Posten, a Swedish-American newspaper, taken between 1898 and 1903."
+                },
+                "type": "Still Image"
+            },
+            "identifier": "oai:reflections.mndigital.org:swede/5",
+            "dataProvider": "American Swedish Institute, 2600 Park Avenue South, Minneapolis, MN 55407; http://ASImn.org",
+            "provider": {
+                "@id": "http://dp.la/api/contributor/mdl",
+                "name": "Minnesota Digital Library"
+            }
+        },
+        {
+            "@context": {
+                "edm": "http://www.europeana.eu/schemas/edm/",
+                "isShownAt": "edm:isShownAt",
+                "dpla": "http://dp.la/terms/",
+                "dataProvider": "edm:dataProvider",
+                "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+                "state": "dpla:state",
+                "hasView": "edm:hasView",
+                "provider": "edm:provider",
+                "collection": "dpla:aggregation",
+                "object": "edm:object",
+                "stateLocatedIn": "dpla:stateLocatedIn",
+                "begin": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeStart"
+                },
+                "@vocab": "http://purl.org/dc/terms/",
+                "LCSH": "http://id.loc.gov/authorities/subjects",
+                "sourceResource": "edm:sourceResource",
+                "name": "xsd:string",
+                "coordinates": "dpla:coordinates",
+                "end": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeEnd"
+                },
+                "originalRecord": "dpla:originalRecord"
+            },
+            "title": "Swedlanda Lutheran Church 60th Anniversary, Hector Township, Minnesota",
+            "sourceResource": {
+                "title": "Swedlanda Lutheran Church 60th Anniversary, Hector Township, Minnesota",
+                "description": "Church members pose in front of the church for the 60th Anniversary on June 24-26, 1934.",
+                "contributor": "George O. Mehl Studio (Minneapolis, Minnesota)",
+                "subject": [
+                    {
+                        "name": "Church entertainments"
+                    },
+                    {
+                        "name": "Church groups"
+                    }
+                ],
+                "rights": "This image may not be reproduced without the written permission of the American Swedish Institute",
+                "relation": [
+                    "Religion"
+                ],
+                "format": "Panoramas",
+                "collection": {
+                    "title": "American Swedish Institute (Digital collection)",
+                    "description": "The American Swedish Institute, a historic museum dedicated to the celebration of Swedish culture, is home to collections on the history of Swedish immigration to the United States, particularly immigration to Minnesota, Swedish-American life and culture and the history and culture of Sweden as it has influenced Swedish America. The American Swedish Institute contributed to Minnesota Reflections images from, Svenska Amerikanska Posten, a Swedish-American newspaper, taken between 1898 and 1903."
+                },
+                "type": "Still Image",
+                "creator": "Mehl, George O."
+            },
+            "identifier": "oai:reflections.mndigital.org:swede/6",
+            "dataProvider": "American Swedish Institute, 2600 Park Avenue South, Minneapolis, MN 55407; http://ASImn.org",
+            "provider": {
+                "@id": "http://dp.la/api/contributor/mdl",
+                "name": "Minnesota Digital Library"
+            }
+        },
+        {
+            "@context": {
+                "edm": "http://www.europeana.eu/schemas/edm/",
+                "isShownAt": "edm:isShownAt",
+                "dpla": "http://dp.la/terms/",
+                "dataProvider": "edm:dataProvider",
+                "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+                "state": "dpla:state",
+                "hasView": "edm:hasView",
+                "provider": "edm:provider",
+                "collection": "dpla:aggregation",
+                "object": "edm:object",
+                "stateLocatedIn": "dpla:stateLocatedIn",
+                "begin": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeStart"
+                },
+                "@vocab": "http://purl.org/dc/terms/",
+                "LCSH": "http://id.loc.gov/authorities/subjects",
+                "sourceResource": "edm:sourceResource",
+                "name": "xsd:string",
+                "coordinates": "dpla:coordinates",
+                "end": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeEnd"
+                },
+                "originalRecord": "dpla:originalRecord"
+            },
+            "title": "Minnesota State Fair Dairy Building, St. Paul, Minnesota",
+            "sourceResource": {
+                "title": "Minnesota State Fair Dairy Building, St. Paul, Minnesota",
+                "description": "Color postcard of the Minnesota State Fair's Dairy Building with flags flying. The message on the reverse is in Swedish and is postmarked \"Jan 21 1911.\"",
+                "subject": [
+                    {
+                        "name": "Agricultural exhibitions"
+                    },
+                    {
+                        "name": "Minnesota State Fair"
+                    }
+                ],
+                "rights": "This image may not be reproduced without the written permission of the American Swedish Institute",
+                "relation": [
+                    "Agriculture"
+                ],
+                "format": "Postcards",
+                "collection": {
+                    "title": "American Swedish Institute (Digital collection)",
+                    "description": "The American Swedish Institute, a historic museum dedicated to the celebration of Swedish culture, is home to collections on the history of Swedish immigration to the United States, particularly immigration to Minnesota, Swedish-American life and culture and the history and culture of Sweden as it has influenced Swedish America. The American Swedish Institute contributed to Minnesota Reflections images from, Svenska Amerikanska Posten, a Swedish-American newspaper, taken between 1898 and 1903."
+                },
+                "type": "Still Image"
+            },
+            "identifier": "oai:reflections.mndigital.org:swede/8",
+            "dataProvider": "American Swedish Institute, 2600 Park Avenue South, Minneapolis, MN 55407; http://ASImn.org",
+            "provider": {
+                "@id": "http://dp.la/api/contributor/mdl",
+                "name": "Minnesota Digital Library"
+            }
+        },
+        {
+            "@context": {
+                "edm": "http://www.europeana.eu/schemas/edm/",
+                "isShownAt": "edm:isShownAt",
+                "dpla": "http://dp.la/terms/",
+                "dataProvider": "edm:dataProvider",
+                "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+                "state": "dpla:state",
+                "hasView": "edm:hasView",
+                "provider": "edm:provider",
+                "collection": "dpla:aggregation",
+                "object": "edm:object",
+                "stateLocatedIn": "dpla:stateLocatedIn",
+                "begin": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeStart"
+                },
+                "@vocab": "http://purl.org/dc/terms/",
+                "LCSH": "http://id.loc.gov/authorities/subjects",
+                "sourceResource": "edm:sourceResource",
+                "name": "xsd:string",
+                "coordinates": "dpla:coordinates",
+                "end": {
+                    "@type": "xsd:date",
+                    "@id": "dpla:dateRangeEnd"
+                },
+                "originalRecord": "dpla:originalRecord"
+            },
+            "title": "Minneapolis & St. Louis Railroad Depot, Belview, Minnesota",
+            "sourceResource": {
+                "title": "Minneapolis & St. Louis Railroad Depot, Belview, Minnesota",
+                "description": "The postcard shows a train pulling into the station and passengers and station employees waiting on the platform.",
+                "subject": [
+                    {
+                        "name": "Railroad stations"
+                    },
+                    {
+                        "name": "Railroads -- Employees"
+                    },
+                    {
+                        "name": "Railroad depot"
+                    }
+                ],
+                "rights": "This image may not be reproduced without the written permission of the American Swedish Institute",
+                "relation": [
+                    "Transportation"
+                ],
+                "format": "Postcards",
+                "collection": {
+                    "title": "American Swedish Institute (Digital collection)",
+                    "description": "The American Swedish Institute, a historic museum dedicated to the celebration of Swedish culture, is home to collections on the history of Swedish immigration to the United States, particularly immigration to Minnesota, Swedish-American life and culture and the history and culture of Sweden as it has influenced Swedish America. The American Swedish Institute contributed to Minnesota Reflections images from, Svenska Amerikanska Posten, a Swedish-American newspaper, taken between 1898 and 1903."
+                },
+                "type": "Still Image"
+            },
+            "identifier": "oai:reflections.mndigital.org:swede/9",
+            "dataProvider": "American Swedish Institute, 2600 Park Avenue South, Minneapolis, MN 55407; http://ASImn.org",
+            "provider": {
+                "@id": "http://dp.la/api/contributor/mdl",
+                "name": "Minnesota Digital Library"
+            }
+        }
+    ]
+}
