@@ -44,10 +44,13 @@ module JsonEtl
           enrichments.each do |e|
             opts = e["options"];
             slice = record.fetch_slice(opts['record_path'])
+            # TODO: Add a slice option in order to allow enriching a subfield within a given record?
             if (slice[opts["record_field_name"]])
               enrichment = {}
-              enrichment[opts["record_field_name"]] = e['enrichment'][opts["origin_field_name"]  ]
-              record = record.merge(enrichment)              
+              # If we have a value in the records has that matches a key in the enrichment,
+              # we then merge it into the record, "enriching" it
+              enrichment[opts["record_field_name"]] = e['enrichment'][slice[opts["origin_field_name"]]]
+              record = record.merge(enrichment)
             end
           end
           record
