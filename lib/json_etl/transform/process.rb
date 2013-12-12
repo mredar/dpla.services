@@ -1,6 +1,5 @@
 require 'json'
 require 'open-uri'
-
 module JsonEtl
   module Transform
     class Process
@@ -92,8 +91,8 @@ module JsonEtl
             # destination fields back into the record
             dest_record = process_desitnations(field_values, attributes["field_dests"], dest_record)
           end
-
         end
+        dest_record['originalRecord'] = record        
         dest_record
       end
 
