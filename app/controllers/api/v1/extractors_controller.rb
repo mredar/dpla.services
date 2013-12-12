@@ -3,20 +3,30 @@ require 'digest/sha1'
 module Api
  module V1
   	class ExtractorsController < ApplicationController
-      before_filter :restrict_access 
+      before_filter :restrict_access
       skip_before_action :verify_authenticity_token
 
 		  # GET /extract/api/v1/ 
 			def extract   
         sha = Extractor.sha(params)
-        @response = extraction("exctract-#{sha}", params)
-        render template: 'api/v1/extractors/response.json.erb'             
+        extract =  extraction("exctract-#{sha}", params)
+        @response = extract.to_json
+        if extract['errors']
+          render template: 'api/v1/extractors/response.json.erb', status: 500
+        else
+          render template: 'api/v1/extractors/response.json.erb'
+        end
+
 			end
 
       private
         def extraction(key, params)
-          Rails.cache.fetch(key, :expires_in => 24.hours) do
-           Extractor.fetch(params) 
+          if params['cache_response']
+            Rails.cache.fetch(key, :expires_in => 30.minutes) do
+              Extractor.fetch(params) 
+            end
+          else
+            Extractor.fetch(params) 
           end
         end
 
