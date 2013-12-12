@@ -1,6 +1,6 @@
 class Extractor
   def self.fetch(params)
-    params[:query_params] = params[:query_params] ? CGI::unescape(params[:query_params]) : params[:query_params]
+
     if (params[:endpoint_type] == 'oai_dc')
       return JsonEtl::Extract::OaiDc.fetch(params)
     else
