@@ -58,13 +58,13 @@ gem 'attempt'
 
 group :development do
   gem 'rest-client'
-  gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'pry'
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
   gem 'coderay', '~> 1.0.5'
+  gem 'guard-minitest'  
 end
 
 group :test do
