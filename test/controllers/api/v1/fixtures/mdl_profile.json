@@ -82,6 +82,23 @@
           }
         ]
       },
+      "metadata/dc/coverage": {
+        "field_dests": [
+          {
+            "pattern": ".*",
+            "path": "sourceResource",
+            "name": "spatial"
+          }
+        ],
+        "processors": [
+          {
+            "process": "geonames_postal",
+            "args": [
+              "umntestuser"
+            ]            
+          }
+        ]        
+      },      
       "metadata/dc/description": {
         "field_dests": [
           {
@@ -199,7 +216,7 @@
           {
             "pattern": ".*",
             "path": "sourceResource",
-            "name": "creator"
+            "name": "spatial"
           }
         ]
       },
