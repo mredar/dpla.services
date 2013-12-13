@@ -1,0 +1,6 @@
+test: 
+  geonames: 
+    username: "foo"
+development: 
+  geonames: 
+    username: "foo"
