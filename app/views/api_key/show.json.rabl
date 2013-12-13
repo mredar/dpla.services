@@ -1,2 +1,2 @@
 object @api_key
-attributes :access_token, :email
+attributes :api_key, :email

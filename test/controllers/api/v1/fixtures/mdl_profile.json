@@ -4,7 +4,7 @@
       "base_url": "http://localhost:8083/api/v1/extract",
       "endpoint_type": "oai_dc",
       "query_params": "%26verb%3DListRecords",
-      "access_token": "fefa907fca5c9e5fb2c7e01d437138b0",
+      "api_key": "aff3aeac5688976f3762622920de4d80",
       "path": "result/OAI_PMH/ListRecords/record",
       "endpoint": "http://localhost:3002/oai/show",
       "cache_response": false
@@ -22,7 +22,7 @@
           "endpoint": "http://localhost:3002/oai/show",
           "endpoint_type": "oai_dc",
           "query_params": "%26verb%3DListSets",
-          "access_token": "fefa907fca5c9e5fb2c7e01d437138b0",
+          "api_key": "aff3aeac5688976f3762622920de4d80",
           "cache_response": false
         }
       }
@@ -34,7 +34,7 @@
       "length": 5
     },    
     "base_url": "http://localhost:8083/api/v1/transform",
-    "access_token": "fefa907fca5c9e5fb2c7e01d437138b0",
+    "api_key": "aff3aeac5688976f3762622920de4d80",
     "@context": {
       "edm": "http://www.europeana.eu/schemas/edm/",
       "isShownAt": "edm:isShownAt",

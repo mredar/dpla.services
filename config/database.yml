@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['DPLA_DEV_DB_NAME'] %>
+  database: <%= ENV['DPLA_ET_DEV_DB_NAME'] %>
   username: <%= ENV['DPLA_DEV_USERNAME'] %>
   password: <%= ENV['DPLA_DEV_PASSWORD'] %>
   pool: 5

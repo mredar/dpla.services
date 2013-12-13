@@ -7,9 +7,14 @@ DplaEt::Application.routes.draw do
     end
   end
 
+  # API Documentation - Hydra 
+  root 'hydra#home', {format: 'json'}
+  namespace :hydra, defaults: {format: 'json'} do 
+    get 'EntryPoint.jsonld' => "hydra#entrypoint"
+  end
 
-  post 'api_key' => 'api_key#create'
-  get 'api_key/:access_token' => 'api_key#show'          
+  post 'api-key' => 'api_key#create'
+  get 'api-key/:api_key' => 'api_key#show'          
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

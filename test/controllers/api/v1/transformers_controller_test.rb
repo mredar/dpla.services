@@ -22,7 +22,7 @@ describe "Transformers Controller" do
           :profile => mock_profile.to_json, 
           :records => mock_extraction, 
           :enrichments => enrichments.to_json, 
-          :access_token => mock_profile['transformer']['access_token'] 
+          :api_key => mock_profile['transformer']['api_key'] 
         }
       )
 

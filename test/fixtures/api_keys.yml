@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  access_token: MyString
-  email: MyString
-
-two:
-  access_token: MyString
-  email: MyString
