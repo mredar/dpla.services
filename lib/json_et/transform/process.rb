@@ -7,6 +7,10 @@ module JsonEtl
 
       attr_reader :output
 
+      def initialize
+        @output = {}
+      end
+
       def output_json
         @output.to_json
       end
@@ -15,9 +19,8 @@ module JsonEtl
         profile, records, enrichments = [profile, records, enrichments].map! { |data| JSON.parse(data) }
         records_profile = profile['extractor']['records']
         enrichments = process_enrichments(enrichments)
-        @output = {}
-        @output['next_batch_params'] = (defined?(records['next_batch_params'])) ? records['next_batch_params'] : nill
-        @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["path"]), enrichments, profile['transformer'])      
+        @output['next_batch_params'] = records['next_batch_params'] || nil
+        @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["path"]), enrichments, profile['transformer'])
       end
 
       # Loop over and transform records according to the provided profile
