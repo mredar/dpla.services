@@ -1,7 +1,7 @@
 require 'json'
 require 'open-uri'
 
-module JsonEtl
+module JsonEt
   module Extract
     # Fetch DC OAI Records
     # Return a extraction results along with the params used to fetch them, and

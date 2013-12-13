@@ -1,9 +1,9 @@
 require 'json'
 require 'open-uri'
-module JsonEtl
+module JsonEt
   module Transform
     class Process
-      include JsonEtl::Transform::Utilities
+      include JsonEt::Transform::Utilities
 
       attr_reader :output
 

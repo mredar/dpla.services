@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module JsonEtl
+module JsonEt
   module Transform
     module Utilities
 

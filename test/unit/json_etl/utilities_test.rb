@@ -1,8 +1,8 @@
 require 'test_helper'
 
 
-class TestJsonEtlUtilities < ActiveSupport::TestCase
-  include JsonEtl::Transform::Utilities
+class TestJsonEtUtilities < ActiveSupport::TestCase
+  include JsonEt::Transform::Utilities
 
   def test_add_lookup_keys
     keyed = [{'setSpec' => 'caturday', 'title' => 'noms'},{'setSpec' => 'ceilingCat', 'title' => 'AhBite'}].to_keyed_hash('setSpec')
@@ -11,20 +11,20 @@ class TestJsonEtlUtilities < ActiveSupport::TestCase
  
   def test_apply_label
     values = ["lol", "catus", ["resistence", "is", "furtail"]]
-    labeled = JsonEtl::Transform::Utilities.apply_labels(values, 'lolcat')
+    labeled = JsonEt::Transform::Utilities.apply_labels(values, 'lolcat')
     expected = [{"lolcat"=>"lol"}, {"lolcat"=>"catus"}, [{"lolcat"=>"resistence"}, {"lolcat"=>"is"}, {"lolcat"=>"furtail"}]]
     assert_equal(expected, labeled)      
   end
 
   def test_fetch_values
     vals = ["happy", "happy", "joy", "joy"]
-    matches = JsonEtl::Transform::Utilities.fetch_values(vals, "happy")
+    matches = JsonEt::Transform::Utilities.fetch_values(vals, "happy")
     assert_equal(["happy", "happy", nil, nil], matches)    
   end
 
   def test_mached_value
     "ohai here's a test"
-    match = JsonEtl::Transform::Utilities.matched_value("ohai here's a test", "test")
+    match = JsonEt::Transform::Utilities.matched_value("ohai here's a test", "test")
     assert_equal('test', match)
   end
 
@@ -50,7 +50,7 @@ class TestJsonEtlUtilities < ActiveSupport::TestCase
   end
 
   def test_hash_from_path
-    hash_result = JsonEtl::Transform::Utilities.field_hash_from_path('foo/bar/baz', "destfield", "bat")
+    hash_result = JsonEt::Transform::Utilities.field_hash_from_path('foo/bar/baz', "destfield", "bat")
     hash = {"foo"=>{"bar"=>{"baz"=>{"destfield"=>"bat"}}}}
     assert_equal(hash, hash_result)
   end

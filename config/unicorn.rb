@@ -1,4 +1,4 @@
-root = '/home/fenne035/dev/dpla/dpla.etl'
+root = '/home/fenne035/dev/dpla/dpla.et'
 
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"

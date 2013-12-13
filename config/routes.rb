@@ -1,4 +1,4 @@
-DplaEtl::Application.routes.draw do
+DplaEt::Application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
