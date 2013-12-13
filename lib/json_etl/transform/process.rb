@@ -137,7 +137,7 @@ module JsonEtl
           end
           return e.read
         }
-      end       
+      end      
 
       ################
       ## Processors ##
@@ -145,9 +145,12 @@ module JsonEtl
 
       def geonames_postal(data, record, username)
         output = []
+        # Allow a local config option for the purpose of integration testing
+        username = APP_CONFIG['geonames']['username'] ? APP_CONFIG['geonames']['username'] : username
         params = (data.is_a?(Array)) ? data.join(" ") : data
         placename = URI::encode(params)
-        url = "http://api.geonames.org/searchJSON?q=#{placename}&maxRows=1&username=#{username}&lang=en&style=full"
+        # TODO: support free tier service as well
+        url = "http://ws.geonames.net//searchJSON?q=#{placename}&maxRows=1&username=#{username}&lang=en&style=full"
         result = JSON.parse(fetch_remote_data(url))
         data = (result.has_key?('geonames')) ? result['geonames'].shift : result
         if (result.has_key?("status"))
