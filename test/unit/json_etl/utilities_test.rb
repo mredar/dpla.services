@@ -1,6 +1,8 @@
 require 'test_helper'
 
+
 class TestJsonEtlUtilities < ActiveSupport::TestCase
+  include JsonEtl::Transform::Utilities
 
   def test_add_lookup_keys
     keyed = [{'setSpec' => 'caturday', 'title' => 'noms'},{'setSpec' => 'ceilingCat', 'title' => 'AhBite'}].to_keyed_hash('setSpec')
