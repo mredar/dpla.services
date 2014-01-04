@@ -7,14 +7,14 @@ module JsonEt
     # Return a extraction results along with the params used to fetch them, and
     # the http status code (e.g 302 tells us to not hit this enpoint for a while)
     class OaiDc
-      
+
       def self.fetch(params)
         url = self.build_url(params)
         self.get_remote_data(url, params)
       end
 
       def self.build_url(params)
-        prefix = (!params['next_batch_params']) ? '?metadataPrefix=oai_dc' : "?#{next_batch_params}"
+        prefix = (defined?(params['batch_params']) && !params['batch_params'].nil?) ? "?#{params['batch_params']}" : '?metadataPrefix=oai_dc'
         query = params[:query_params] ? CGI::unescape(params[:query_params]) : nil
         "#{params['endpoint']}#{prefix}#{query}"    
       end   
