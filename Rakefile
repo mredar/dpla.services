@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-DplaEt::Application.load_tasks
+DplaServices::Application.load_tasks

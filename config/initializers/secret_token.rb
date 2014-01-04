@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-DplaEt::Application.config.secret_key_base = 'd53446f40d557d7c261532a8fb05819eb90dca2b6b34c572b3a2bc3c07139e694161afe4e13caad0d03fe31e19f09e8595bf29746d62251a753372d16e3cf9f2'
+DplaServices::Application.config.secret_key_base = 'd53446f40d557d7c261532a8fb05819eb90dca2b6b34c572b3a2bc3c07139e694161afe4e13caad0d03fe31e19f09e8595bf29746d62251a753372d16e3cf9f2'
