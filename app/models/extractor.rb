@@ -1,6 +1,5 @@
 class Extractor
   def self.fetch(params)
-
     if (params[:endpoint_type] == 'oai_dc')
       return JsonEt::Extract::OaiDc.fetch(params)
     else

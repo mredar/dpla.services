@@ -3,7 +3,7 @@ class HydraController < ApplicationController
     render template: 'hydra/home.json.erb'
   end
 
-  def entrypoint 
+  def entrypoint
     render template: 'hydra/entry_point.json.erb'
-  end  
+  end
 end

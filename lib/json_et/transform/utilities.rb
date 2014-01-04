@@ -37,18 +37,18 @@ module JsonEt
       end
 
       # Convenience method to return a regex matched value
-      # TODO: move the string test out of this method      
+      # TODO: move the string test out of this method
       def matched_value(value, pattern)
         # If we get something other than a string at this point, punt
         if (value.is_a?(String))
           match = value.match("#{pattern}")
-          if (defined?(match[0])) 
+          if (defined?(match[0]))
             match[0]
           end
         else
           value
         end
-      end     
+      end
 
       # Create a hash from a slash delimited path and set field_name and field_value
       # as the deepest elements in the larger hash
@@ -87,7 +87,7 @@ class Array
   # Take an array of hashes and return a hash indexed by the value
   # of one of its elements. Useful to creat lookup hashes from metadata
   # enrichements, like OAI collection "setSpec" fields.
-  # e.g. 
+  # e.g.
   # books = [{'identifier' => '123sdhh12123', 'title' => '1984'}, {'identifier' => '12323ljsdf', 'title' => 'Wool'}]
   # books.to_keyed_hash('identifier')
   # > {'123sdhh12123' => {'identifier' => '123sdhh12123', 'title' => '1984'}, '12323ljsdf' => {'identifier' => '12323ljsdf', 'title' => 'Wool'}}
@@ -113,12 +113,11 @@ class Array
       end
     end
     out
-  end  
-    
+  end
 end
 
 class Hash
-  def fetch_slice(path)      
+  def fetch_slice(path)
     out = {}
     if path == '/'
         self
@@ -130,9 +129,9 @@ class Hash
         path.gsub!(predicate[0], '')
       end
       out = path.split("/").inject(self) {|hash, key| hash[key] }
-      # Now use the stripped predicate to filter the result   
+      # Now use the stripped predicate to filter the result
       if (!predicate.nil? && out.is_a?(Array))
-        out = out.filter_by_predicate(predicate[0])         
+        out = out.filter_by_predicate(predicate[0])
       end
       out
     end

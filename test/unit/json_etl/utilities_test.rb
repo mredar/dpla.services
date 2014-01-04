@@ -8,18 +8,18 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
     keyed = [{'setSpec' => 'caturday', 'title' => 'noms'},{'setSpec' => 'ceilingCat', 'title' => 'AhBite'}].to_keyed_hash('setSpec')
     assert_equal({"caturday"=>{"setSpec"=>"caturday", "title"=>"noms"}, "ceilingCat"=>{"setSpec"=>"ceilingCat", "title"=>"AhBite"}}, keyed) 
   end
- 
+
   def test_apply_label
     values = ["lol", "catus", ["resistence", "is", "furtail"]]
     labeled = JsonEt::Transform::Utilities.apply_labels(values, 'lolcat')
     expected = [{"lolcat"=>"lol"}, {"lolcat"=>"catus"}, [{"lolcat"=>"resistence"}, {"lolcat"=>"is"}, {"lolcat"=>"furtail"}]]
-    assert_equal(expected, labeled)      
+    assert_equal(expected, labeled)
   end
 
   def test_fetch_values
     vals = ["happy", "happy", "joy", "joy"]
     matches = JsonEt::Transform::Utilities.fetch_values(vals, "happy")
-    assert_equal(["happy", "happy", nil, nil], matches)    
+    assert_equal(["happy", "happy", nil, nil], matches)
   end
 
   def test_mached_value
@@ -31,10 +31,10 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
   def test_deep_clean
     arrs = [
       { "expected" => [], "original" => [nil, nil, nil]},
-      { "expected" => ["heck"], "original" => ["heck"]},      
+      { "expected" => ["heck"], "original" => ["heck"]},
       { "expected" => [["yeah!"]], "original" => [[nil, nil, nil], ["yeah!"]]},
-      { "expected" => [["heck", "yeah!"]], "original" => [nil, nil, ["heck", "yeah!"]]},  
-    ]          
+      { "expected" => [["heck", "yeah!"]], "original" => [nil, nil, ["heck", "yeah!"]]},
+    ]
     arrs.each do |arr|
       returned = arr["original"].deep_clean
       assert_equal(arr["expected"], returned)
@@ -44,9 +44,9 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
   def test_fetch_slice
     hash_original = {"blerg" => {"blorg" => {"whoops" => "oops", "blarg" => "bleg"}}, 'foo' => { 'barn' => ['bar', 'baz', 'bang!']}}
     assert_equal(hash_original, hash_original.fetch_slice("/"))
-    assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}}, hash_original.fetch_slice("blerg"))    
+    assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}}, hash_original.fetch_slice("blerg"))
     assert_equal('oops', hash_original.fetch_slice("blerg/blorg/whoops"))
-    assert_equal('bang!', hash_original.fetch_slice("foo/barn/[2]"))    
+    assert_equal('bang!', hash_original.fetch_slice("foo/barn/[2]"))
   end
 
   def test_hash_from_path

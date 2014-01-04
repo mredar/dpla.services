@@ -1,7 +1,7 @@
 class ApiKey < ActiveRecord::Base
   before_create :generate_api_key
-  
-  private 
+
+  private
     def generate_api_key
       begin
         self.api_key = SecureRandom.hex

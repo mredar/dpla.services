@@ -59,7 +59,7 @@ module JsonEt
           record
       end
 
-      # Get the portion of the enrichment that we want, index it with a 
+      # Get the portion of the enrichment that we want, index it with a
       # provided key
       def process_enrichments(enrichments)
         output = []
@@ -82,7 +82,7 @@ module JsonEt
           # Add the specified context to each record
           # Context is added first so that ie appears first in the hash
           dest_record['@context'] = profile['@context']
-         
+
           # Get the field value(s) from a given field path
           vals = field_val_set(field_path, attributes, record)
 
@@ -96,7 +96,7 @@ module JsonEt
             dest_record = process_desitnations(field_values, attributes["field_dests"], dest_record)
           end
         end
-        dest_record['originalRecord'] = record        
+        dest_record['originalRecord'] = record
         dest_record
       end
 
@@ -105,7 +105,7 @@ module JsonEt
           # by the provided regex
           destinations.each do |dest|
             field_values = fetch_values(values, dest["pattern"])
-            field_values = (field_values.is_a?(Array)) ? field_values.deep_clean : field_values      
+            field_values = (field_values.is_a?(Array)) ? field_values.deep_clean : field_values
             field_values = (dest["label"]) ? apply_labels(field_values, dest["label"]) : field_values
             field = (defined?(dest)) ? field_hash_from_path(dest["path"], dest["name"], field_values) : {dest["name"] => field_values}
             record.deep_merge!(field)
@@ -135,13 +135,13 @@ module JsonEt
       # to save on client-side traffic
       # TODO: How do we want to test remote data?
       def fetch_remote_data(url)
-        open(url) { |e| 
-          if (e.status[0] != '200') 
+        open(url) { |e|
+          if (e.status[0] != '200')
             @output = {'errors' => "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}" }
           end
           return e.read
         }
-      end      
+      end
 
       ################
       ## Processors ##
@@ -178,7 +178,7 @@ module JsonEt
       end
 
       # whitelisted Ruby split function
-      def rsplit(data, record, split_by)    
+      def rsplit(data, record, split_by)
         if (data.is_a?(Array))
           data.map! { |item| (item.is_a?(Array)) ? self.split(item, record, split_by) : item.split(split_by) }
         else
@@ -196,12 +196,12 @@ module JsonEt
       # whitelisted Ruby gsub
       def gsub(item, record, args)
         item.gsub(/#{args['pattern']}/, args['replacement'])
-      end   
+      end
 
       # Return a single element of an array
       def slice(item, record, slice)
         item[slice]
-      end 
+      end
 
       # Return a subset of an array
       def slices(item, record, args)
