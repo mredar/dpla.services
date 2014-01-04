@@ -3,11 +3,13 @@ require 'digest/sha1'
 module Api
  module V1
   	class ExtractorsController < ApplicationController
+      include ServiceLog      
       before_filter :restrict_access
       skip_before_action :verify_authenticity_token
 
 		  # GET /extract/api/v1/ 
 			def extract   
+        service_log.info("Extraction has begun for client user #{@api_key.email}")
         sha = Extractor.sha(params)
         extract =  extraction("exctract-#{sha}", params)
         @response = extract.to_json
@@ -31,8 +33,8 @@ module Api
         end
 
         def restrict_access
-          api_key = ApiKey.find_by_api_key(params[:api_key])        
-          head :unauthorized unless api_key
+          @api_key = ApiKey.find_by_api_key(params[:api_key])       
+          head :unauthorized unless @api_key
         end
   	end
   end
