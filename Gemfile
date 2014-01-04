@@ -44,7 +44,6 @@ gem 'unicorn'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-
 gem 'nokogiri'
 gem 'iconv'
 gem 'bootstrap-sass', '~> 2.3.2.1'
@@ -55,21 +54,20 @@ gem "brakeman", :require => false
 gem "rails_best_practices"
 gem 'deep_merge'
 gem 'attempt'
+gem 'rest-client'
 
 group :development do
-  gem 'rest-client'
+  # Debug doesn't currently work so well with ruby 2.x
+  gem 'byebug'
   gem 'binding_of_caller'
   gem 'meta_request'
-  gem 'pry'
-  gem 'pry-stack_explorer'
-  gem 'pry-debugger'
   gem 'coderay', '~> 1.0.5'
-  gem 'guard-minitest'  
+  gem 'guard-minitest'
+  gem 'better_errors'
 end
 
 group :test do
   gem "minitest"
   gem "sqlite3"
   gem 'turn'
-  gem 'rest-client'
 end
