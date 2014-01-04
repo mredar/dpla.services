@@ -56,6 +56,9 @@ gem 'deep_merge'
 gem 'attempt'
 gem 'rest-client'
 
+# For caching extractions etc
+gem 'redis-rails'
+
 group :development do
   # Debug doesn't currently work so well with ruby 2.x
   gem 'byebug'
