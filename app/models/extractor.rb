@@ -10,6 +10,6 @@ class Extractor
 
   private
   def self.sha(params)
-     Digest::SHA1.hexdigest("#{params[:endpoint]}#{params[:endpoint_type]}#{params[:query_params]}")
+     Digest::SHA1.hexdigest("#{params[:endpoint]}#{params[:endpoint_type]}#{params[:query_params]}#{params[:batch_params]}")
   end
 end
