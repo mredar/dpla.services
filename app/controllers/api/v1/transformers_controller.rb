@@ -3,7 +3,6 @@ module Api
     class TransformersController < ApplicationController
       include ServiceLog
       before_filter :restrict_access 
-      skip_before_action :verify_authenticity_token
 
       # post /transform/api/v1
       def transform

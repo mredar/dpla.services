@@ -5,7 +5,6 @@ module Api
   	class ExtractorsController < ApplicationController
       include ServiceLog      
       before_filter :restrict_access
-      skip_before_action :verify_authenticity_token
 
 		  # GET /extract/api/v1/ 
 			def extract   
