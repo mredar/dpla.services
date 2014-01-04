@@ -3,7 +3,7 @@ DplaServices::Application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       get 'extract' => 'extractors#extract'
-      post 'transform' => 'transformers#transform'    
+      post 'transform' => 'transformers#transform'
     end
   end
 
@@ -12,7 +12,7 @@ DplaServices::Application.routes.draw do
   get 'hydra/EntryPoint.jsonld' => "hydra#entrypoint"
 
   post 'api-key' => 'api_key#create'
-  get 'api-key/:api_key' => 'api_key#show'         
+  get 'api-key/:api_key' => 'api_key#show'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
