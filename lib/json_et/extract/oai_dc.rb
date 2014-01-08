@@ -1,5 +1,6 @@
 require 'json'
 require 'open-uri'
+require 'service_log'
 
 module JsonEt
   module Extract
@@ -7,19 +8,21 @@ module JsonEt
     # Return a extraction results along with the params used to fetch them, and
     # the http status code (e.g 302 tells us to not hit this enpoint for a while)
     class OaiDc
+      include ServiceLog
 
-      def self.fetch(params)
-        url = self.build_url(params)
-        self.get_remote_data(url, params)
+      def fetch(params)
+        url = build_url(params)
+        service_log.info("Fetching fresh extraction from #{url}")
+        get_remote_data(url, params)
       end
 
-      def self.build_url(params)
+      def build_url(params)
         prefix = (defined?(params['batch_params']) && !params['batch_params'].nil?) ? "?#{params['batch_params']}" : '?metadataPrefix=oai_dc'
         query = params[:query_params] ? CGI::unescape(params[:query_params]) : nil
         "#{params['endpoint']}#{prefix}#{query}"
       end
 
-      def self.get_remote_data(url, params)
+      def get_remote_data(url, params)
         attempt(5, 5) {
          open(url) {|e|
             raw_response = e.read

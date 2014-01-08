@@ -3,6 +3,7 @@ require 'open-uri'
 module JsonEt
   module Transform
     class Process
+      include ServiceLog
       include JsonEt::Transform::Utilities
 
       attr_reader :output
@@ -38,7 +39,10 @@ module JsonEt
       # for the sake of testing, allow users to select a subset of records
       # to transform
       def record_slice(records, profile)
-        (profile.has_key?('slice')) ? records.slice(profile['slice']['start'], profile['slice']['length']) : records
+        if profile.has_key?('slice')
+          service_log.info("Slicing Extraction at # #{profile['slice']['start']} ending at #{profile['slice']['length']}")
+          records = records.slice(profile['slice']['start'], profile['slice']['length'])
+        end
       end
 
       # Merge additional metadata into each records
@@ -126,7 +130,12 @@ module JsonEt
       # upon each other
       def process_field(processors, value, record)
         processors.each do |p|
-          value = self.method(p["process"]).call(value, record, *p["args"])
+          service_log.info("Processing #{value} with #{p} with args: #{p["args"]}")
+          if (p["args"].is_a?(Hash))
+            value = self.method(p["process"]).call(value, record, p["args"])
+          else
+            value = self.method(p["process"]).call(value, record, *p["args"])
+          end
         end
         value
       end
@@ -147,6 +156,11 @@ module JsonEt
       ## Processors ##
       ################
 
+      # Adds prefixes and/or suffixes to a field value
+      def affix(value, record, args)
+        "#{args['prefix']}#{value}#{args['suffix']}"
+      end
+
       def geonames_postal(data, record, username)
         output = []
         # Allow a local config option for the purpose of integration testing
@@ -161,10 +175,9 @@ module JsonEt
           # TODO: allow the profile to set a unique identifier so that we can add this
           # to logs and later use for preventing duplicate db entries?
           @output = {'errors' => "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}" }
-          []
-          return 
+          return []
         else
-          [{"country" => data['countryName'], "state" => data['adminName1'], "county" => data['adminName2'], "name" => params, 'coordinates' => [data['lat'], data['lng']]}]
+          [{"county" => data['adminName2'], "name" => params, "state" => data['adminName1'], 'coordinates' => [data['lat'], data['lng']], "country" => data['countryName']}]
         end
       end
 
@@ -194,7 +207,7 @@ module JsonEt
       end
 
       # whitelisted Ruby gsub
-      def gsub(item, record, args)
+      def gsub(item, record, args = {})
         item.gsub(/#{args['pattern']}/, args['replacement'])
       end
 
