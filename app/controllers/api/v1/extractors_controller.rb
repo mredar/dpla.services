@@ -11,7 +11,7 @@ module Api
         service_log.info("Extraction has begun for client user #{@api_key.email}")
         sha = Extractor.sha(params)
         extract =  extraction("exctract-#{sha}", params)
-        @response = extract.to_json
+        @response = (params[:pretty]) ? JSON.pretty_generate(extract) : extract.to_json
         if extract['errors']
           render template: 'api/v1/extractors/response.json.erb', status: 500
         else
