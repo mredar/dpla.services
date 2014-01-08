@@ -26,12 +26,12 @@ describe "Transformers Controller" do
         }
       )
 
+    records = JSON.parse(records)
+
     filepath = File.join(Rails.root, "tmp", "tests", "records.json")
     File.open(filepath, "w") do |f|
-      f.puts records.to_s.force_encoding("utf-8")
+      f.puts JSON.pretty_generate(records).force_encoding("utf-8")
     end
-
-    records = JSON.parse(records)
 
     mock_records = JSON.parse(load_fixture('mdl_transformed'))
     records.must_equal mock_records
