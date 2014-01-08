@@ -4,5 +4,5 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
 
   # This is an api
-  protect_from_forgery with: :null_session
+  #protect_from_forgery with: :null_session
 end
