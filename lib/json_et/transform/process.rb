@@ -179,7 +179,7 @@ module JsonEt
       # Recursively strip all elements in an array or a single string
       def rstrip(data, record)
         if (data.is_a?(Array))
-          data.map! { |item| (item.is_a?(Array)) ? self.strip(item, record) : item.strip }
+          data.map! { |item| (item.is_a?(Array)) ? self.rstrip(item, record) : item.strip }
         else
           data.strip
         end
