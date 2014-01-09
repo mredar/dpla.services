@@ -136,7 +136,6 @@ class Hash
   # => first (String)
   #
   def fetch_slice(path)
-    begin
       out = {}
       if path == '/'
           self

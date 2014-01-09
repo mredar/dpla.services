@@ -111,12 +111,17 @@ module JsonEt
       # in the order that they are given (processors may build)
       # upon each other
       def process_field(processors, value, record)
+
         processors.each do |p|
-          service_log.info("Processing Field: with function #{p} with args: #{p["args"]} for value #{value}")
-          if (p["args"].is_a?(Hash))
-            value = self.method(p["process"]).call(value, record, p["args"])
-          else
-            value = self.method(p["process"]).call(value, record, *p["args"])
+          begin
+            if (p["args"].is_a?(Hash))
+              value = self.method(p["process"]).call(value, record, p["args"])
+            else
+              value = self.method(p["process"]).call(value, record, *p["args"])
+            end
+          rescue Exception => e
+            service_log.error("Processor Error for #{p} on for value `#{value}` on record `#{record}`")
+            raise e
           end
         end
         value
