@@ -1,5 +1,6 @@
-require 'json'
+require 'yajl/json_gem'
 require 'open-uri'
+
 module JsonEt
   module Transform
     class Process
@@ -22,7 +23,7 @@ module JsonEt
         # Todo: allow users to passed in pre-processed enrichments (keyed)
         enrichments = process_enrichments(enrichments)
         @output['next_batch_params'] = records['next_batch_params'] || nil
-        @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["path"]), enrichments, profile['transformer'])
+        @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["origin_path"]), enrichments, profile['transformer'])
       end
 
       # Loop over and transform records according to the provided profile
@@ -49,15 +50,17 @@ module JsonEt
       # at a join point specified by field names and paths
       def enrich_record(record, enrichments)
           enrichments.each do |e|
-            opts = e["options"];
-            slice = record.fetch_slice(opts['record_path'])
-            # TODO: Add a slice option in order to allow enriching a subfield within a given record?
-            if (slice[opts["record_field_name"]])
-              enrichment = {}
+            config = e["config"];
+
+            record_key = record.fetch_slice(config['dest_path'])[config["dest_key_field_name"]]
+            if (record_key)
               # If we have a value in the records has that matches a key in the enrichment,
               # we then merge it into the record, "enriching" it
-              enrichment[opts["record_field_name"]] = e['enrichment'][slice[opts["origin_field_name"]]]
-              record = record.merge(enrichment)
+              if e['enrichment'][record_key]
+                enrichment = {}
+                enrichment[config["dest_key_field_name"]] = e['enrichment'][record_key]
+                record = record.merge(enrichment)
+              end
             end
           end
           record
@@ -70,8 +73,8 @@ module JsonEt
         if (!enrichments.empty?)
           enrichments.each do |enrich|
             enrichment = (enrich['transform']['origin_path']) ? enrich['enrichment'].fetch_slice(enrich['transform']['origin_path']) : enrich['enrichment']
-            enrichment = enrichment.to_keyed_hash(enrich['transform']['origin_field_name'])
-            output << { "options" => enrich['transform'], "enrichment" => enrichment }
+            enrichment = enrichment.to_keyed_hash(enrich['transform']['origin_key_field_name'])
+            output << { "config" => enrich['transform'], "enrichment" => enrichment }
           end
         end
         output
@@ -81,48 +84,27 @@ module JsonEt
       def process_fields(record, profile)
         dest_record = {}
 
-        profile["fields"].each do | field_path, attributes |
+        profile["fields"].each do |dest_path, config|
 
           # Add the specified context to each record
-          # Context is added first so that ie appears first in the hash
+          # Context is added first so that it appears first in the hash
           dest_record['@context'] = profile['@context']
 
           # Get the field value(s) from a given field path
-          vals = field_val_set(field_path, attributes, record)
+          field_vals = get_field_value(config, record)
 
-          if (vals)
+          if (field_vals)
             # We get a single originating field path but pass the whole record
-            # To allow processors to gather data from additional fields
-            field_values = (attributes["processors"]) ? process_field(attributes["processors"], vals, record) : vals
+            # To allow processors to gather data from other fields
+            field_values = (config["processors"]) ? process_field(config["processors"], field_vals, record) : field_vals
 
             # Take the field values for a given field, map them to a dest field and merge these
             # destination fields back into the record
-            dest_record = process_desitnations(field_values, attributes["field_dests"], dest_record)
+            dest_record = dest_merge(field_values, dest_path, config['label'], dest_record)
           end
         end
         dest_record['originalRecord'] = record
         dest_record
-      end
-
-      def process_desitnations(values, destinations, record)
-          # Loop over each destination path, grab and insert the data specified
-          # by the provided regex
-          destinations.each do |dest|
-            field_values = fetch_values(values, dest["pattern"])
-            field_values = (field_values.is_a?(Array)) ? field_values.deep_clean : field_values
-            field_values = (dest["label"]) ? apply_labels(field_values, dest["label"]) : field_values
-            field = (defined?(dest)) ? field_hash_from_path(dest["path"], dest["name"], field_values) : {dest["name"] => field_values}
-            record.deep_merge!(field)
-          end
-          record
-      end
-
-      def field_val_set(field_path, attributes, record)
-        if field_path == '--LITERAL--'
-          vals = attributes['value']
-        else
-          vals = record.fetch_slice(field_path)
-        end
       end
 
       # Run a set of predefined processors on a field value
@@ -130,7 +112,7 @@ module JsonEt
       # upon each other
       def process_field(processors, value, record)
         processors.each do |p|
-          service_log.info("Processing #{value} with #{p} with args: #{p["args"]}")
+          service_log.info("Processing Field: with function #{p} with args: #{p["args"]} for value #{value}")
           if (p["args"].is_a?(Hash))
             value = self.method(p["process"]).call(value, record, p["args"])
           else
@@ -138,6 +120,18 @@ module JsonEt
           end
         end
         value
+      end
+
+      def dest_merge(field_values, dest_path, label, record)
+        field_values = (field_values.is_a?(Array)) ? field_values.deep_clean : field_values
+        field_values = (label) ? apply_labels(field_values, label) : field_values
+        field = field_hash_from_path(dest_path, field_values)
+        service_log.info("Destination derived for field #{field}")
+        record.deep_merge!(field)
+      end
+
+      def get_field_value(config, record)
+        (config['value']) ? config['value'] : record.fetch_slice(config['origin'])
       end
 
       # Allow clients to pass a url rather than the data itself

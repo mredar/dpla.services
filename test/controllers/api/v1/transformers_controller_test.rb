@@ -2,6 +2,7 @@ require "test_helper"
 require 'json'
 require 'open-uri'
 require 'rest_client'
+require 'yajl/json_gem'
 
 describe "Transformers Controller" do
   it 'ensures mdl transforms correctly' do

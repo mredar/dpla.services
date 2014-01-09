@@ -5,17 +5,17 @@
             "endpoint_type": "oai_dc",
             "query_params": "%26verb%3DListRecords",
             "api_key": "aff3aeac5688976f3762622920de4d80",
-            "path": "result/OAI_PMH/ListRecords/record",
+            "origin_path": "result/OAI_PMH/ListRecords/record",
             "endpoint": "http://localhost:3002/oai/show",
             "cache_response": false
         },
         "record_enrichments": [
             {
                 "transform": {
-                    "origin_field_name": "setSpec",
-                    "record_field_name": "setSpec",
+                    "origin_key_field_name": "setSpec",
+                    "dest_key_field_name": "setSpec",
                     "origin_path": "result/OAI_PMH/ListSets/set",
-                    "record_path": "header/"
+                    "dest_path": "header/"
                 },
                 "extract": {
                     "base_url": "http://localhost:8083/api/v1/extract",
@@ -63,23 +63,8 @@
             "originalRecord": "dpla:originalRecord"
         },
         "fields": {
-            "metadata/dc/identifier[2]": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "/",
-                        "name": "isShownAt"
-                    }
-                ]
-            },
-            "metadata/dc/identifier[2]": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "/",
-                        "name": "object"
-                    }
-                ],
+            "object": {
+                "origin": "metadata/dc/identifier[2]",
                 "processors": [
                     {
                         "process": "gsub",
@@ -103,55 +88,36 @@
                     }
                 ]
             },
-            "metadata/dc/publisher": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "/",
-                        "name": "dataProvider"
-                    }
-                ]
+            "isShownA": {
+                "origin": "metadata/dc/identifier[2]"
             },
-            "--LITERAL--": {
+            "dataProvider": {
+                "origin": "metadata/dc/publisher"
+            },
+            "provider": {
                 "value": {
                     "@id": "http://dp.la/api/contributor/mdl",
                     "name": "Minnesota Digital Library"
-                },
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "/",
-                        "name": "provider"
-                    }
-                ]
+                }
             },
-            "metadata/dc/title": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "/",
-                        "name": "title"
-                    },
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "title"
-                    }
-                ],
+            "title": {
+                "origin": "metadata/dc/title",
                 "processors": [
                     {
                         "process": "rstrip"
                     }
                 ]
             },
-            "metadata/dc/coverage": {
-                "field_dests": [
+            "sourceResource/title": {
+                "origin": "metadata/dc/title",
+                "processors": [
                     {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "spatial"
+                        "process": "rstrip"
                     }
-                ],
+                ]
+            },
+            "sourceResource/spatial": {
+                "origin": "metadata/dc/coverage",
                 "processors": [
                     {
                         "process": "geonames_postal",
@@ -161,65 +127,25 @@
                     }
                 ]
             },
-            "metadata/dc/description": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "description"
-                    }
-                ]
+            "sourceResource/description": {
+                "origin": "metadata/dc/description"
             },
-            "metadata/dc/contributor": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "contributor"
-                    }
-                ]
+            "sourceResource/contributor": {
+                "origin": "metadata/dc/contributor"
             },
-            "metadata/dc/subject": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "subject",
-                        "label": "name"
-                    }
-                ],
+            "sourceResource/format": {
+                "origin": "metadata/dc/format",
                 "processors": [
-                    {
-                        "process": "rsplit",
-                        "args": [
-                            "; "
-                        ]
-                    },
-                    {
-                        "process": "flatten"
-                    },
                     {
                         "process": "rstrip"
                     }
                 ]
             },
-            "metadata/dc/rights": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "rights"
-                    }
-                ]
+            "sourceResource/rights": {
+                "origin": "metadata/dc/rights"
             },
-            "metadata/dc/relation": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "relation"
-                    }
-                ],
+            "sourceResource/relation": {
+                "origin": "metadata/dc/relation",
                 "processors": [
                     {
                         "process": "rsplit",
@@ -232,64 +158,17 @@
                     }
                 ]
             },
-            "metadata/dc/format": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "format"
-                    }
-                ],
-                "processors": [
-                    {
-                        "process": "rstrip"
-                    }
-                ]
+            "sourceResource/collection/title": {
+                "origin": "setSpec/setDescription/oclcdc/title"
             },
-            "setSpec/setDescription/oclcdc/title": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource/collection",
-                        "name": "title"
-                    }
-                ]
+            "sourceResource/collection/description": {
+                "origin": "setSpec/setDescription/oclcdc/description"
             },
-            "setSpec/setDescription/oclcdc/description": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource/collection",
-                        "name": "description"
-                    }
-                ]
+            "sourceResource/type": {
+                "origin": "metadata/dc/type"
             },
-            "metadata/dc/type": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "type"
-                    }
-                ]
-            },
-            "metadata/dc/creator": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "sourceResource",
-                        "name": "spatial"
-                    }
-                ]
-            },
-            "header/identifier": {
-                "field_dests": [
-                    {
-                        "pattern": ".*",
-                        "path": "/",
-                        "name": "identifier"
-                    }
-                ]
+            "identifier": {
+                "origin": "header/identifier"
             }
         }
     }

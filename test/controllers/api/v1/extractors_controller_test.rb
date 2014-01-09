@@ -1,5 +1,5 @@
 require "test_helper"
-require 'json'
+require 'yajl/json_gem'
 require 'open-uri'
 
 describe "Extractors Controller" do

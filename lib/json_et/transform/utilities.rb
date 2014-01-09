@@ -19,23 +19,6 @@ module JsonEt
         end
       end
 
-      # Recurse through an array, replace values with values
-      # that match a given pattern
-      # TODO: move the array test out of this method
-      def fetch_values(values, pattern)
-        if (values.is_a?(Array))
-          values.map do |item|
-            if (item.is_a?(Array))
-              fetch_values(item, pattern)
-            else
-              matched_value(item, pattern)
-            end
-          end
-        else
-          matched_value(values, pattern)
-        end
-      end
-
       # Convenience method to return a regex matched value
       # TODO: move the string test out of this method
       def matched_value(value, pattern)
@@ -52,8 +35,8 @@ module JsonEt
 
       # Create a hash from a slash delimited path and set field_name and field_value
       # as the deepest elements in the larger hash
-      def field_hash_from_path(path, field_name, field_value)
-        path.split("/").reverse.inject({field_name => field_value}) {|memo, key| (!key) ? memo : { key => memo } }
+      def field_hash_from_path(path, field_value)
+        path.split("/").reverse.inject(field_value) {|memo, key| (!key) ? memo : { key => memo } }
       end
     end
   end
@@ -91,14 +74,14 @@ class Array
   # books = [{'identifier' => '123sdhh12123', 'title' => '1984'}, {'identifier' => '12323ljsdf', 'title' => 'Wool'}]
   # books.to_keyed_hash('identifier')
   # > {'123sdhh12123' => {'identifier' => '123sdhh12123', 'title' => '1984'}, '12323ljsdf' => {'identifier' => '12323ljsdf', 'title' => 'Wool'}}
-  def to_keyed_hash(key)
-    keyed_hash = {}
-    self.each do |item|
-      if (field_value = item[key])
-        keyed_hash[field_value] = item
+  def to_keyed_hash(key_field_name)
+    lookup = {}
+    self.each do |record|
+      if (key = record[key_field_name])
+        lookup[key] = record
       end
     end
-    keyed_hash
+    lookup
   end
 
   # Grab an element off of an array based on an xpath predicate
@@ -117,23 +100,29 @@ class Array
 end
 
 class Hash
+  include ServiceLog
   def fetch_slice(path)
-    out = {}
-    if path == '/'
-        self
-    else
-      # Grab and strip the predicate from the path
-      predicate =  /\[.*\]/.match(path)
-      if (predicate)
-        path = path.dup
-        path.gsub!(predicate[0], '')
+    begin
+      out = {}
+      if path == '/'
+          self
+      else
+        # Grab and strip the predicate from the path
+        predicate =  /\[.*\]/.match(path)
+        if (predicate)
+          path = path.dup
+          path.gsub!(predicate[0], '')
+        end
+        out = path.split("/").inject(self) {|hash, key| hash[key] }
+        # Now use the stripped predicate to filter the result
+        if (!predicate.nil? && out.is_a?(Array))
+          out = out.filter_by_predicate(predicate[0])
+        end
+        out
       end
-      out = path.split("/").inject(self) {|hash, key| hash[key] }
-      # Now use the stripped predicate to filter the result
-      if (!predicate.nil? && out.is_a?(Array))
-        out = out.filter_by_predicate(predicate[0])
-      end
-      out
+    rescue Exception => e
+      service_log.error("Tried to fetch slice for path #{path} from #{self} and failed. Sorry, boss. I'm a horrible computer. Error message: {e.message}")
+      raise e
     end
   end
 end
