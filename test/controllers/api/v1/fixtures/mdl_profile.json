@@ -63,8 +63,26 @@
             "originalRecord": "dpla:originalRecord"
         },
         "fields": {
+            "testMultiOrigin": {
+                "origins": [
+                    {"path": "metadata/dc/language"},
+                    {"prefix": "[where]", "path": "metadata/dc/coverage", "suffix": "[/where]"}
+                ],
+                "processors": [
+                    {
+                        "process": "rstrip"
+                    },
+                    {
+                     "process": "gsub",
+                        "args": {
+                            "pattern": ";",
+                            "replacement": ""
+                        }
+                    }
+                ]
+            },
             "object": {
-                "origin": "metadata/dc/identifier[2]",
+                "origins": [{"path": "metadata/dc/identifier[2]"}],
                 "processors": [
                     {
                         "process": "gsub",
@@ -88,11 +106,8 @@
                     }
                 ]
             },
-            "isShownA": {
-                "origin": "metadata/dc/identifier[2]"
-            },
             "dataProvider": {
-                "origin": "metadata/dc/publisher"
+                "origins": [{"path": "metadata/dc/publisher"}]
             },
             "provider": {
                 "value": {
@@ -101,7 +116,7 @@
                 }
             },
             "title": {
-                "origin": "metadata/dc/title",
+                "origins": [{"path": "metadata/dc/title"}],
                 "processors": [
                     {
                         "process": "rstrip"
@@ -109,7 +124,7 @@
                 ]
             },
             "sourceResource/title": {
-                "origin": "metadata/dc/title",
+                "origins": [{"path": "metadata/dc/title"}],
                 "processors": [
                     {
                         "process": "rstrip"
@@ -117,7 +132,7 @@
                 ]
             },
             "sourceResource/spatial": {
-                "origin": "metadata/dc/coverage",
+                "origins": [{"path": "metadata/dc/coverage"}],
                 "processors": [
                     {
                         "process": "geonames_postal",
@@ -128,13 +143,13 @@
                 ]
             },
             "sourceResource/description": {
-                "origin": "metadata/dc/description"
+                "origins": [{"path": "metadata/dc/description"}]
             },
             "sourceResource/contributor": {
-                "origin": "metadata/dc/contributor"
+                "origins": [{"path": "metadata/dc/contributor"}]
             },
             "sourceResource/format": {
-                "origin": "metadata/dc/format",
+                "origins": [{"path": "metadata/dc/format"}],
                 "processors": [
                     {
                         "process": "rstrip"
@@ -142,10 +157,10 @@
                 ]
             },
             "sourceResource/rights": {
-                "origin": "metadata/dc/rights"
+                "origins": [{"path": "metadata/dc/rights"}]
             },
             "sourceResource/relation": {
-                "origin": "metadata/dc/relation",
+                "origins": [{"path": "metadata/dc/relation"}],
                 "processors": [
                     {
                         "process": "rsplit",
@@ -159,16 +174,16 @@
                 ]
             },
             "sourceResource/collection/title": {
-                "origin": "setSpec/setDescription/oclcdc/title"
+                "origins": [{"path": "setSpec/setDescription/oclcdc/title"}]
             },
             "sourceResource/collection/description": {
-                "origin": "setSpec/setDescription/oclcdc/description"
+                "origins": [{"path": "setSpec/setDescription/oclcdc/description"}]
             },
             "sourceResource/type": {
-                "origin": "metadata/dc/type"
+                "origins": [{"path": "metadata/dc/type"}]
             },
             "identifier": {
-                "origin": "header/identifier"
+                "origins": [{"path": "header/identifier"}]
             }
         }
     }

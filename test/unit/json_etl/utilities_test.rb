@@ -35,14 +35,21 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
     end
   end
 
+  def test_field_values
+    config = {}
+    config['origins'] = [{"path" => "foo/bar"}]
+    record = {'foo' => {'bar' => 'bang'}, 'blerg' => 'stuff'}
+    assert_equal('bang', get_field_values(config, record))
+  end
+
   def test_fetch_slice
     hash_original = {"blerg" => {"blorg" => {"whoops" => "oops", "blarg" => "bleg"}}, 'foo' => { 'barn' => ['bar', 'baz', 'bang!']}}
     assert_equal(hash_original, hash_original.fetch_slice("/"))
     assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}}, hash_original.fetch_slice("blerg"))
     assert_equal('oops', hash_original.fetch_slice("blerg/blorg/whoops"))
-    assert_equal('baz', hash_original.fetch_slice("foo/barn/[1]"))
-    assert_equal('bar', hash_original.fetch_slice("foo/barn/[first()]"))
-    assert_equal('bang!', hash_original.fetch_slice("foo/barn/[last()]"))
+    assert_equal('baz', hash_original.fetch_slice("foo/barn[1]"))
+    assert_equal('bar', hash_original.fetch_slice("foo/barn[first()]"))
+    assert_equal('bang!', hash_original.fetch_slice("foo/barn[last()]"))
   end
 
   def test_hash_from_path
