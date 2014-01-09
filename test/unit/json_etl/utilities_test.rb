@@ -16,12 +16,6 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
     assert_equal(expected, labeled)
   end
 
-  def test_fetch_values
-    vals = ["happy", "happy", "joy", "joy"]
-    matches = JsonEt::Transform::Utilities.fetch_values(vals, "happy")
-    assert_equal(["happy", "happy", nil, nil], matches)
-  end
-
   def test_mached_value
     "ohai here's a test"
     match = JsonEt::Transform::Utilities.matched_value("ohai here's a test", "test")
@@ -52,7 +46,7 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
   end
 
   def test_hash_from_path
-    hash_result = JsonEt::Transform::Utilities.field_hash_from_path('foo/bar/baz', "destfield", "bat")
+    hash_result = JsonEt::Transform::Utilities.field_hash_from_path('foo/bar/baz/destfield', "bat")
     hash = {"foo"=>{"bar"=>{"baz"=>{"destfield"=>"bat"}}}}
     assert_equal(hash, hash_result)
   end
