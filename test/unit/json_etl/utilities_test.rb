@@ -46,7 +46,9 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
     assert_equal(hash_original, hash_original.fetch_slice("/"))
     assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}}, hash_original.fetch_slice("blerg"))
     assert_equal('oops', hash_original.fetch_slice("blerg/blorg/whoops"))
-    assert_equal('bang!', hash_original.fetch_slice("foo/barn/[2]"))
+    assert_equal('baz', hash_original.fetch_slice("foo/barn/[1]"))
+    assert_equal('bar', hash_original.fetch_slice("foo/barn/[first()]"))
+    assert_equal('bang!', hash_original.fetch_slice("foo/barn/[last()]"))
   end
 
   def test_hash_from_path

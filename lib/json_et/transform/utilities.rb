@@ -101,6 +101,34 @@ end
 
 class Hash
   include ServiceLog
+
+  # Returns a value at the end of a path
+  # Values returned can be ov any data type
+  # e.g.
+  #   d = {"foo"=>"bar", "baz"=>{"bat"=>"bang"}, "level"=>5, 'vals' => ['first', 'second']}
+  #   p = 'baz'
+  #   d.fetch_slice(p)
+  # => {"bat"=>"bang"}
+  #   p = 'baz/bat'
+  #   d.fetch_slice(p)
+  # => bang (String)
+  #   p = 'baz/bat/bang'
+  #   d.fetch_slice(p)
+  # => bang (String)
+  #   p = 'level'
+  #   d.fetch_slice(p)
+  # => 5 (Fixnum)
+  #   p = 'vals'
+  #   d.fetch_slice(p)
+  # => first second (Array)
+  #
+  # Xpath predicates are supported, currently only for arrays
+  #
+  # e.g.
+  #   p = 'vals[1]'
+  #   d.fetch_slice(p)
+  # => first (String)
+  #
   def fetch_slice(path)
     begin
       out = {}
@@ -108,21 +136,34 @@ class Hash
           self
       else
         # Grab and strip the predicate from the path
-        predicate =  /\[.*\]/.match(path)
-        if (predicate)
-          path = path.dup
-          path.gsub!(predicate[0], '')
+        path.split("/").inject(self) do |item, key|
+          pred = /\[.*\]/.match(key)
+          if (!pred.nil?)
+            puts pred[0].inspect
+            # Right now, we can only return a specific value
+            # Xpath supports expressions etc (e.g. [last()], [last()-1])
+            # I initially tried JSONpath, but it was an abysmal performer
+            # So, I have opted to support a subset of xpath's features
+            item = fetch_predicate(item, pred[0].gsub(/\[|\]/, ''))
+          else
+            item[key]
+          end
         end
-        out = path.split("/").inject(self) {|hash, key| hash[key] }
-        # Now use the stripped predicate to filter the result
-        if (!predicate.nil? && out.is_a?(Array))
-          out = out.filter_by_predicate(predicate[0])
-        end
-        out
       end
     rescue Exception => e
       service_log.error("Tried to fetch slice for path #{path} from #{self} and failed. Sorry, boss. I'm a horrible computer. Error message: {e.message}")
       raise e
+    end
+  end
+
+  # Start by supporting a few XPath predicates
+  def fetch_predicate(array, pred)
+    if pred == 'first()'
+      array.first
+    elsif pred == 'last()'
+      array.last
+    else
+      array[pred.to_i]
     end
   end
 end
