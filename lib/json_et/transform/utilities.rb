@@ -139,7 +139,6 @@ class Hash
         path.split("/").inject(self) do |item, key|
           pred = /\[.*\]/.match(key)
           if (!pred.nil?)
-            puts pred[0].inspect
             # Right now, we can only return a specific value
             # Xpath supports expressions etc (e.g. [last()], [last()-1])
             # I initially tried JSONpath, but it was an abysmal performer
