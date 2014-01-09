@@ -56,6 +56,10 @@ gem 'deep_merge'
 gem 'attempt'
 gem 'rest-client'
 
+# JSON stuff, but faster
+# Works as a drop-in replacement for many JSON functions
+gem 'yajl-ruby'
+
 # For caching extractions etc
 gem 'redis-rails'
 

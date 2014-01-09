@@ -1,3 +1,4 @@
+require 'yajl/json_gem'
 require 'digest/sha1'
 
 module Api
