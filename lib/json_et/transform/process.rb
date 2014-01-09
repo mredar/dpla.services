@@ -202,8 +202,12 @@ module JsonEt
       end
 
       # whitelisted Ruby gsub
-      def gsub(item, record, args = {})
-        item.gsub(/#{args['pattern']}/, args['replacement'])
+      def gsub(data, record, args = {})
+        if (data.is_a?(Array))
+          data.map! { |item| (item.is_a?(Array)) ? self.gsub(item, record, args) : item.gsub(/#{args['pattern']}/, args['replacement']) }
+        else
+          data.gsub(/#{args['pattern']}/, args['replacement'])
+        end
       end
 
       # Return a single element of an array
