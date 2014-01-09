@@ -33,6 +33,26 @@ module JsonEt
         end
       end
 
+      def get_field_values(config, record)
+        vals = []
+        if config['value']
+          config['value']
+        else
+          config['origins'].each do |origin|
+            data = record.fetch_slice(origin['path'])
+            if !data.is_a?(Enumerable)
+              # Allow clients to wrap each result to make regexing easier
+              # if they want manipulate multiple paths in different ways
+              vals << "#{origin['prefix']}#{data}#{origin['suffix']}"
+            else
+              vals << data
+            end
+          end
+        end
+        # If they only gave us one path, just use that.
+        (vals.count > 1) ? vals : vals.pop
+      end
+
       # Create a hash from a slash delimited path and set field_name and field_value
       # as the deepest elements in the larger hash
       def field_hash_from_path(path, field_value)
@@ -83,20 +103,6 @@ class Array
     end
     lookup
   end
-
-  # Grab an element off of an array based on an xpath predicate
-  # For now, we only support index numbers
-  def filter_by_predicate(predicate)
-    pred = predicate.gsub(/\[|\]/, '')
-    if (!pred.nil?)
-      # We have an index number if none of these characters appear
-      if (/[a-z()'']/ =~ pred).nil?
-        pred = Integer(pred)
-        out = self[pred]
-      end
-    end
-    out
-  end
 end
 
 class Hash
@@ -137,26 +143,33 @@ class Hash
       else
         # Grab and strip the predicate from the path
         path.split("/").inject(self) do |item, key|
-          pred = /\[.*\]/.match(key)
-          if (!pred.nil?)
+          preds = /(.*)\[(.*)\]/.match(key)
+          if (!preds.nil?)
             # Right now, we can only return a specific value
             # Xpath supports expressions etc (e.g. [last()], [last()-1])
             # I initially tried JSONpath, but it was an abysmal performer
             # So, I have opted to support a subset of xpath's features
-            item = fetch_predicate(item, pred[0].gsub(/\[|\]/, ''))
+            item = fetch_predicate(item, preds)
           else
-            item[key]
+            if (!item[key])
+              service_log.warn("The `#{path}` is missing from  item `#{self}`")
+              return nil
+            else
+              item[key]
+            end
           end
         end
       end
     rescue Exception => e
-      service_log.error("Tried to fetch slice for path #{path} from #{self} and failed. Sorry, boss. I'm a horrible computer. Error message: {e.message}")
+      service_log.error("Tried to fetch slice for path #{path} from #{self} and failed. Sorry, boss. I'm a horrible computer. Error message: #{e.message}")
       raise e
     end
   end
 
   # Start by supporting a few XPath predicates
-  def fetch_predicate(array, pred)
+  def fetch_predicate(item, matches)
+    pred = matches[2]
+    array = item[matches[1]]
     if pred == 'first()'
       array.first
     elsif pred == 'last()'

@@ -91,7 +91,7 @@ module JsonEt
           dest_record['@context'] = profile['@context']
 
           # Get the field value(s) from a given field path
-          field_vals = get_field_value(config, record)
+          field_vals = get_field_values(config, record)
 
           if (field_vals)
             # We get a single originating field path but pass the whole record
@@ -128,10 +128,6 @@ module JsonEt
         field = field_hash_from_path(dest_path, field_values)
         service_log.info("Destination derived for field #{field}")
         record.deep_merge!(field)
-      end
-
-      def get_field_value(config, record)
-        (config['value']) ? config['value'] : record.fetch_slice(config['origin'])
       end
 
       # Allow clients to pass a url rather than the data itself
