@@ -44,6 +44,7 @@ module JsonEt
           service_log.info("Slicing Extraction at # #{profile['slice']['start']} ending at #{profile['slice']['length']}")
           records = records.slice(profile['slice']['start'], profile['slice']['length'])
         end
+        records
       end
 
       # Merge additional metadata into each records
