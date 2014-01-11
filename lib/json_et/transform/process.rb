@@ -136,7 +136,6 @@ module JsonEt
         field_values = (field_values.is_a?(Array)) ? field_values.deep_clean : field_values
         field_values = (label) ? apply_labels(field_values, label) : field_values
         field = field_hash_from_path(dest_path, field_values)
-        service_log.info("Destination derived for field #{field}")
         record.deep_merge!(field)
       end
 
@@ -146,7 +145,7 @@ module JsonEt
       def fetch_remote_data(url)
         open(url) { |e|
           if (e.status[0] != '200')
-            @output = {'errors' => "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}" }
+            @output['errors'] << "Failed request with status #{e.status[0]} for request #{e.base_uri.to_str}"
           end
           return e.read
         }
@@ -161,23 +160,52 @@ module JsonEt
         "#{args['prefix']}#{value}#{args['suffix']}"
       end
 
-      def geonames_postal(data, record, username)
-        output = []
-        # Allow a local config option for the purpose of integration testing
-        username = APP_CONFIG['geonames']['username'] ? APP_CONFIG['geonames']['username'] : username
-        params = (data.is_a?(Array)) ? data.join(" ") : data
-        placename = URI::encode(params)
-        # TODO: support free tier service as well
-        url = "http://ws.geonames.net//searchJSON?q=#{placename}&maxRows=1&username=#{username}&lang=en&style=full"
-        result = JSON.parse(fetch_remote_data(url))
-        data = (result.has_key?('geonames')) ? result['geonames'].shift : result
-        if (result.has_key?("status"))
-          # TODO: allow the profile to set a unique identifier so that we can add this
-          # to logs and later use for preventing duplicate db entries?
-          @output = {'errors' => "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}" }
-          return []
+      # TODO: refactor this fugly mess
+      def geonames_match(data, args)
+        data = geonames_normalze_match(data)
+        if (args['match_sets'])
+          args['match_sets'].each do |match_set|
+            match_set['matches'].each do |match|
+              match = geonames_normalze_match(match)
+              if match == data
+                return match_set['returns']
+              end
+            end
+          end
+        end
+        nil
+      end
+
+      def geonames_normalze_match(match)
+        (match.is_a?(Array)) ? match.sort.join("").downcase : match.downcase
+      end
+
+      def geonames_postal(data, record, args)
+        if (default = geonames_match(data, args))
+          return default
         else
-          [{"county" => data['adminName2'], "name" => params, "state" => data['adminName1'], 'coordinates' => [data['lat'], data['lng']], "country" => data['countryName']}]
+          output = []
+          # Allow a local config option for the purpose of integration testing
+          username = APP_CONFIG['geonames']['username'] ? APP_CONFIG['geonames']['username'] : args['username']
+          params = (data.is_a?(Array)) ? data.join(" ") : data
+          placename = URI::encode(params)
+          # url e.g. "http://ws.geonames.net//searchJSON?q=#{placename}&maxRows=1&username=#{username}&lang=en&style=full"
+          result = JSON.parse(fetch_remote_data(APP_CONFIG['geonames']['url'])
+          count = result['totalResultsCount']
+          data = (result.has_key?('geonames')) ? result['geonames'].shift : result
+          if result.has_key?("status")
+            # TODO: allow the profile to set a unique identifier so that we can add this
+            # to logs and later use for preventing duplicate db entries?
+            @output['errors'] << "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}"
+            return []
+          elsif count > 0
+            [{"county" => data['adminName2'], "name" => params, "state" => data['adminName1'], 'coordinates' => [data['lat'], data['lng']], "country" => data['countryName']}]
+          else
+            msg = "geonames_postal: Couldn't find squat for #{params}"
+            service_log.warn(msg)
+            @output['errors'] << msg
+            output
+          end
         end
       end
 
