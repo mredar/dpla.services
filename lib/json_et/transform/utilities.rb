@@ -152,7 +152,7 @@ class Hash
             item = fetch_predicate(item, preds)
           else
             if (!item[key])
-              service_log.warn("The `#{path}` is missing from  item `#{self}`")
+              service_log.warn("fetch_slice: The `#{path}` is missing from  item: \n `#{self}` \n\n")
               return nil
             else
               item[key]
