@@ -36,7 +36,7 @@ module JsonEt
       def get_field_values(config, record)
         vals = []
         if config['value']
-          config['value']
+          vals << config['value']
         else
           config['origins'].each do |origin|
             data = record.fetch_slice(origin['path'])
