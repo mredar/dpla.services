@@ -11,6 +11,7 @@ module JsonEt
 
       def initialize
         @output = {}
+        @output['errors'] = []
       end
 
       def output_json
@@ -30,7 +31,8 @@ module JsonEt
       def transform_records(records, enrichments, profile)
         output = []
         records = record_slice(records, profile);
-        records.each do |record|
+        records.each_with_index do |record, index|
+          service_log.info("Transforming record # #{index}")
           record = enrich_record(record, enrichments)
           output << process_fields(record, profile)
         end
@@ -121,7 +123,9 @@ module JsonEt
               value = self.method(p["process"]).call(value, record, *p["args"])
             end
           rescue Exception => e
-            service_log.error("Processor Error for #{p} on for value `#{value}` on record `#{record}`")
+            msg = "Processor Error for #{p} on for value `#{value}` on record `#{record}. Error Message: #{e.message}"
+            service_log.error("Processor Error for #{p} on for value `#{value}` on record `#{record}. Error Message: #{e.message}")
+            @output['errors'] << msg
             raise e
           end
         end
