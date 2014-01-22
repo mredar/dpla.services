@@ -23,7 +23,6 @@ module JsonEt
         records_profile = profile['extractor']['records']
         # Todo: allow users to passed in pre-processed enrichments (keyed)
         enrichments = process_enrichments(enrichments)
-        @output['next_batch_params'] = records['next_batch_params'] || nil
         @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["origin_path"]), enrichments, profile['transformer'])
       end
 
@@ -189,8 +188,8 @@ module JsonEt
           username = APP_CONFIG['geonames']['username'] ? APP_CONFIG['geonames']['username'] : args['username']
           params = (data.is_a?(Array)) ? data.join(" ") : data
           placename = URI::encode(params)
-          # url e.g. "http://ws.geonames.net//searchJSON?q=#{placename}&maxRows=1&username=#{username}&lang=en&style=full"
-          result = JSON.parse(fetch_remote_data(APP_CONFIG['geonames']['url'])
+          url = "http://ws.geonames.net//searchJSON?q=#{placename}&maxRows=1&username=#{username}&lang=en&style=full"
+          result = JSON.parse(fetch_remote_data(url))
           count = result['totalResultsCount']
           data = (result.has_key?('geonames')) ? result['geonames'].shift : result
           if result.has_key?("status")
