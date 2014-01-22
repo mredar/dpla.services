@@ -30,14 +30,8 @@
         "originalRecord": "dpla:originalRecord"
       },
       "testMultiOrigin": [
-        "Swedish",
-        [
-          "Minneapolis",
-          "Downtown",
-          "Hennepin",
-          "Minnesota",
-          "United States"
-        ]
+        "http://reflections.mndigital.org/u?/swede,4",
+        "[creator]true[/creator]"
       ],
       "object": "http://reflections.mndigital.org/cgi-bin/thumbnail.exe?CISOROOT=/swede&CISOPTR=4",
       "dataProvider": "American Swedish Institute, 2600 Park Avenue South, Minneapolis, MN 55407; http://ASImn.org",
@@ -57,7 +51,7 @@
           }
         ],
         "description": "The 1903 convention of the American Union of Swedish Singers was commemorated with a color page in Svenska Amerikanska Posten.",
-        "contributor": "",
+        "contributor": "true",
         "format": "Advertisements",
         "rights": "This image may not be reproduced for any reason without written permission from the American Swedish Institute",
         "relation": [

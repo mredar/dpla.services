@@ -40,6 +40,9 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
     config['origins'] = [{"path" => "foo/bar"}]
     record = {'foo' => {'bar' => 'bang'}, 'blerg' => 'stuff'}
     assert_equal('bang', get_field_values(config, record))
+
+    config['value'] = { 'foo' => 'bar' }
+    assert_equal({ 'foo' => 'bar' }, get_field_values(config, record))
   end
 
   def test_fetch_slice
