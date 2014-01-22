@@ -15,7 +15,7 @@ class Extractor
       #{params[:endpoint]}
       #{params[:endpoint_type]}
       #{params[:query_params]}
-      #{params[:batch_params]}
+      #{params[:batch_param]}
       #{params[:pretty]}")
   end
 end
