@@ -7,5 +7,5 @@ stdout_path "#{root}/unicorn/unicorn.log"
 
 # listen "/tmp/unicorn.dplahub.sock"
 listen 8083, :tcp_nopush => true
-worker_processes 4
+worker_processes 6
 timeout 300
