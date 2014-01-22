@@ -51,7 +51,7 @@ module JsonEt
             response = {
               'next_batch_params' => [next_batch_params],
               'original_params' => params,
-              'results' => results,
+              'records' => results,
               'http_status_code' => code,
               'errors' => errors
               }
