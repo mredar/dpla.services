@@ -46,13 +46,14 @@ class TestJsonEtUtilities < ActiveSupport::TestCase
   end
 
   def test_fetch_slice
-    hash_original = {"blerg" => {"blorg" => {"whoops" => "oops", "blarg" => "bleg"}}, 'foo' => { 'barn' => ['bar', 'baz', 'bang!']}}
+    hash_original = {"Björn" => "starship", "blerg" => {"blorg" => {"whoops" => "oops", "blarg" => "bleg"}}, 'foo' => { 'barn' => ['bar', 'baz', 'bang!']}}
     assert_equal(hash_original, hash_original.fetch_slice("/"))
     assert_equal({"blorg"=>{"whoops"=>"oops", "blarg"=>"bleg"}}, hash_original.fetch_slice("blerg"))
     assert_equal('oops', hash_original.fetch_slice("blerg/blorg/whoops"))
     assert_equal('baz', hash_original.fetch_slice("foo/barn[1]"))
     assert_equal('bar', hash_original.fetch_slice("foo/barn[first()]"))
     assert_equal('bang!', hash_original.fetch_slice("foo/barn[last()]"))
+    assert_equal('starship', hash_original.fetch_slice("Björn"))
   end
 
   def test_hash_from_path
