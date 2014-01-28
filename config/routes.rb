@@ -4,6 +4,7 @@ DplaServices::Application.routes.draw do
     namespace :v1 do
       get 'extract' => 'extractors#extract'
       post 'transform' => 'transformers#transform'
+      post 'validate/diff' => 'validators#diff'
     end
   end
 
