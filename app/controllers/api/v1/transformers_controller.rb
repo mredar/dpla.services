@@ -6,11 +6,11 @@ module Api
 
       # post /transform/api/v1
       def transform
-        service_log.info("New Transformation Begun for @{api.email} with profile #{params[:profile]}")
+        service_log.info("New Transformation Begun for #{@api_key.email} with profile #{params[:profile]}")
         transformer = JsonEt::Transform::Process.new
         transformer.run(params[:profile], params[:records], params[:enrichments])
         @response = transformer.output_json
-        render template: 'api/v1/transformers/response.json.erb'
+        render template: 'api/v1/response.json.erb'
       end
 
       private
