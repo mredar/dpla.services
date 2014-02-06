@@ -141,8 +141,8 @@ class Hash
       if path == '/'
           self
       else
-        # Grab and strip the predicate from the path
         path.split("/").inject(self) do |item, key|
+          # Grab and strip the predicate from the path
           preds = /(.*)\[(.*)\]/.match(key)
           if (!preds.nil?)
             # Right now, we can only return a specific value
@@ -151,11 +151,16 @@ class Hash
             # So, I have opted to support a subset of xpath's features
             item = fetch_predicate(item, preds)
           else
-            if (!item[key])
-              service_log.warn("fetch_slice: The `#{path}` is missing from  item: \n `#{self}` \n\n")
-              return nil
+            if item.is_a?(Hash)
+              if (!item[key])
+                service_log.warn("fetch_slice: The `#{path}` is missing from  item: \n `#{self}` \n\n")
+                return nil
+              else
+                item[key]
+              end
             else
-              item[key]
+              # If we don't have a hash at this point, just return the value
+              item
             end
           end
         end
