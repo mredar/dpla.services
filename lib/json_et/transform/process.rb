@@ -197,7 +197,7 @@ module JsonEt
             @output['errors'] << "Error for item #{data}: Error code #{result['status']['value']} #{result['status']['message']}"
             return []
           elsif count > 0
-            [{"county" => data['adminName2'], "name" => params, "state" => data['adminName1'], 'coordinates' => [data['lat'], data['lng']], "country" => data['countryName']}]
+            [{"county" => data['adminName2'], "name" => params, "state" => data['adminName1'], 'coordinates' => "#{data['lat']}, #{data['lng']}", "country" => data['countryName']}]
           else
             msg = "geonames_postal: Couldn't find squat for #{params}"
             service_log.warn(msg)
@@ -219,7 +219,7 @@ module JsonEt
       # whitelisted Ruby split function
       def rsplit(data, record, split_by)
         if (data.is_a?(Array))
-          data.map! { |item| (item.is_a?(Array)) ? self.split(item, record, split_by) : item.split(split_by) }
+          data.map! { |item| (item.is_a?(Array)) ? self.rsplit(item, record, split_by) : item.split(split_by) }
         else
           data.split(split_by)
         end
@@ -229,6 +229,13 @@ module JsonEt
       def flatten(data, record, level = nil)
         if data.kind_of?(Array)
           data.flatten(level)
+        end
+      end
+
+      # whitelisted Ruby flatten function
+      def unique(data, record)
+        if data.kind_of?(Array)
+          data.uniq
         end
       end
 
