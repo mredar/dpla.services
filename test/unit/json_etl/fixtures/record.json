@@ -1,0 +1,166 @@
+{
+  "@context": {
+    "edm": "http://www.europeana.eu/schemas/edm/",
+    "isShownAt": "edm:isShownAt",
+    "dpla": "http://dp.la/terms/",
+    "dataProvider": "edm:dataProvider",
+    "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+    "state": "dpla:state",
+    "hasView": "edm:hasView",
+    "provider": "edm:provider",
+    "collection": "dpla:aggregation",
+    "object": "edm:object",
+    "stateLocatedIn": "dpla:stateLocatedIn",
+    "begin": {
+      "@type": "xsd:date",
+      "@id": "dpla:dateRangeStart"
+    },
+    "@vocab": "http://purl.org/dc/terms/",
+    "LCSH": "http://id.loc.gov/authorities/subjects",
+    "sourceResource": "edm:sourceResource",
+    "name": "xsd:string",
+    "coordinates": "dpla:coordinates",
+    "end": {
+      "@type": "xsd:date",
+      "@id": "dpla:dateRangeEnd"
+    },
+    "originalRecord": "dpla:originalRecord"
+  },
+  "isShownAt": "http://reflections.mndigital.org/u?/p15160coll13,73",
+  "object": "http://reflections.mndigital.org/cgi-bin/thumbnail.exe?CISOROOT=/p15160coll13&CISOPTR=73",
+  "dataProvider": "Bethel University Digital Library, 3900 Bethel Drive, St. Paul, MN 55112, http://www.bethel.edu",
+  "provider": {
+    "@id": "http://dp.la/api/contributor/mdl",
+    "name": "Minnesota Digital Library"
+  },
+  "title": "Scandia Church on a truck in front of Nelson Hall Bethel Seminary,  St. Paul, Minnesota",
+  "sourceResource": {
+    "title": "Scandia Church on a truck in front of Nelson Hall Bethel Seminary,  St. Paul, Minnesota",
+    "spatial": [
+      {
+        "county": "Ramsey County",
+        "name": "St. Paul Ramsey Minnesota United States",
+        "state": "Minnesota",
+        "coordinates": [
+          "44.94441",
+          "-93.09327"
+        ],
+        "country": "United States"
+      }
+    ],
+    "subject": [
+      {
+        "name": "Universities and colleges"
+      },
+      {
+        "name": "Church buildings"
+      },
+      {
+        "name": "Bethel College and Seminary (Saint Paul, Minn.)"
+      },
+      {
+        "name": "Church buildings"
+      },
+      {
+        "name": "College campuses"
+      },
+      {
+        "name": "Dormitories"
+      }
+    ],
+    "description": "Scandia Church, one of the first Swedish Baptist church buildings in Minnesota, moving on a truck in front of Nelson Hall on its way to new location on grounds of Bethel Seminary.",
+    "contributor": "",
+    "format": [
+      "8.9 x 8.9",
+      "Color photographs"
+    ],
+    "rights": "This image may not be reproduced for any reason without the express written consent of the Bethel University Digital Library, 3900 Bethel Drive, Saint Paul, MN 55112",
+    "relation": [
+      "Architecture"
+    ],
+    "collection": {
+      "title": "Bethel University (Digital collection)",
+      "description": "Bethel University is a leader in Christian higher education with approximately 6,400 students from 25 countries enrolled in undergraduate, graduate, seminary, and adult education programs. The Bethel University archive collection includes photographs and documents related to the history of this St. Paul, Minnesota, institution from its beginnings as a seminary in 1871, to Bethel Academy in 1905, and then the combined institution of Bethel Academy and Theological Seminary in 1914. The photographs in Minnesota Reflections show student and faculty life and buildings on both the early campus, across from the Minnesota State Fairgrounds, and the current Arden Hills campus in the mid 1960s to early 1980s."
+    },
+    "type": "Still Image;"
+  },
+  "identifier": "oai:reflections.mndigital.org:p15160coll13/73",
+  "originalRecord": {
+    "header": {
+      "identifier": "oai:reflections.mndigital.org:p15160coll13/73",
+      "datestamp": "2012-07-18",
+      "setSpec": "p15160coll13"
+    },
+    "metadata": {
+      "dc": {
+        "xmlns:oai_dc": "http://www.openarchives.org/OAI/2.0/oai_dc/",
+        "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "xsi:schemaLocation": "http://www.openarchives.org/OAI/2.0/oai_dc/\n           http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
+        "title": "Scandia Church on a truck in front of Nelson Hall Bethel Seminary,  St. Paul, Minnesota",
+        "description": "Scandia Church, one of the first Swedish Baptist church buildings in Minnesota, moving on a truck in front of Nelson Hall on its way to new location on grounds of Bethel Seminary.",
+        "date": "1973",
+        "format": [
+          "8.9 x 8.9",
+          "Color photographs"
+        ],
+        "relation": "Architecture;",
+        "type": "Still Image;",
+        "subject": [
+          [
+            "Universities and colleges",
+            "Church buildings"
+          ],
+          [
+            "Bethel College and Seminary (Saint Paul, Minn.)",
+            "Church buildings",
+            "College campuses",
+            "Dormitories"
+          ]
+        ],
+        "coverage": [
+          "St. Paul",
+          "Ramsey",
+          "Minnesota",
+          "United States"
+        ],
+        "publisher": "Bethel University Digital Library, 3900 Bethel Drive, St. Paul, MN 55112, http://www.bethel.edu",
+        "rights": "This image may not be reproduced for any reason without the express written consent of the Bethel University Digital Library, 3900 Bethel Drive, Saint Paul, MN 55112",
+        "identifier": [
+          "bdlhp001147",
+          "mhs16028",
+          "http://reflections.mndigital.org/u?/p15160coll13,73"
+        ]
+      }
+    },
+    "setSpec": {
+      "setSpec": "p15160coll13",
+      "setName": "Bethel University",
+      "setDescription": {
+        "oclcdc": {
+          "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+          "xmlns:oclcterms": "http://purl.org/oclc/terms/",
+          "xmlns:dcterms": "http://purl.org/dc/terms/",
+          "xmlns:dcmitype": "http://purl.org/dc/dcmitype/",
+          "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "xsi:schemaLocation": "http://purl.org/oclc/terms/\n           http://svn.dev.oclc.org/svn/Crosswalk_PG/trunk/schemas/oclcterms/oclcterms.xsd",
+          "recordSetIdentifier": "p15160coll13",
+          "recordTransportIdentifier": "oai:reflections.mndigital.org:p15160coll13",
+          "recordContentSource": [
+            "MNU",
+            "CNTNT"
+          ],
+          "recordIdentifier": {
+            "xsi:type": "http://purl.org/oclc/terms/oclcrecordnumber"
+          },
+          "title": "Bethel University (Digital collection)",
+          "subject": "Ramsey County; Minnesota; United States",
+          "description": "Bethel University is a leader in Christian higher education with approximately 6,400 students from 25 countries enrolled in undergraduate, graduate, seminary, and adult education programs. The Bethel University archive collection includes photographs and documents related to the history of this St. Paul, Minnesota, institution from its beginnings as a seminary in 1871, to Bethel Academy in 1905, and then the combined institution of Bethel Academy and Theological Seminary in 1914. The photographs in Minnesota Reflections show student and faculty life and buildings on both the early campus, across from the Minnesota State Fairgrounds, and the current Arden Hills campus in the mid 1960s to early 1980s.",
+          "creator": "Bethel University",
+          "date": "1908 - 1985",
+          "rights": "These images may not be reproduced for any reason without the express written consent of the Bethel University Digital Library, 3900 Bethel Drive, Saint Paul, MN 55112."
+        }
+      }
+    }
+  }
+}
