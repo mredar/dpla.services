@@ -71,7 +71,7 @@ module JsonEt
       # provided key
       def process_enrichments(enrichments)
         output = []
-        if (!enrichments.empty?)
+        if (enrichments)
           enrichments.each do |enrich|
             enrichment = (enrich['transform']['origin_path']) ? enrich['enrichment'].fetch_slice(enrich['transform']['origin_path']) : enrich['enrichment']
             enrichment = enrichment.to_keyed_hash(enrich['transform']['origin_key_field_name'])
