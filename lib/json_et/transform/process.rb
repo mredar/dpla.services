@@ -250,7 +250,7 @@ module JsonEt
 
       # Return a single element of an array
       def slice(item, record, slice)
-        item[slice]
+        item[slice.to_i]
       end
 
       # Return a subset of an array
