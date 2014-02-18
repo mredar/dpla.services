@@ -22,7 +22,8 @@ module JsonEt
         profile, records, enrichments = [profile, records, enrichments].map! { |data| JSON.parse(data) }
         # Todo: allow users to passed in pre-processed enrichments (keyed)
         enrichments = process_enrichments(enrichments)
-        @output['records'] = transform_records(records.fetch_slice(profile['extractor']['records']["origin_path"]), enrichments, profile['transformer'])
+        records = records.fetch_slice(profile['extractor']['records']["origin_path"])
+        @output['records'] = transform_records(records, enrichments, profile['transformer'])
       end
 
       # Loop over and transform records according to the provided profile
