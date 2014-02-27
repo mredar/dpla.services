@@ -14,7 +14,7 @@ module Api
         extract =  extraction("exctract-#{sha}", params)
         @response = (params[:pretty]) ? JSON.pretty_generate(extract) : extract.to_json
         if extract['errors']
-          render template: 'api/v1/response.json.erb', status: 500
+          render template: 'api/v1/response.json.erb'
         else
           render template: 'api/v1/response.json.erb'
         end
