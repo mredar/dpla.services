@@ -18,7 +18,6 @@ class Validator
   def dpla_fields
     [
       "dataProvider",
-      "hasView",
       "hasView/@id",
       "hasView/format",
       "hasView/rights",
@@ -29,7 +28,6 @@ class Validator
       "object",
       "rights",
       "format",
-      "provider",
       "provider/id",
       "provider/name",
       "sourceResource/contributor",
@@ -55,7 +53,7 @@ class Validator
       "sourceResource/subject/@type",
       "sourceResource/subject/name",
       "sourceResource/temporal",
-      "sourceResource/temporal/begi",
+      "sourceResource/temporal/begin",
       "sourceResource/temporal/end",
       "sourceResource/title",
       "sourceResource/type"
