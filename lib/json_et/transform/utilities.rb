@@ -40,7 +40,7 @@ module JsonEt
         else
           config['origins'].each do |origin|
             data = record.fetch_slice(origin['path'])
-            if !data.is_a?(Enumerable)
+            if data && !data.is_a?(Enumerable)
               # Allow clients to wrap each result to make regexing easier
               # if they want manipulate multiple paths in different ways
               vals << "#{origin['prefix']}#{data}#{origin['suffix']}"
@@ -144,7 +144,7 @@ class Hash
         path.split("/").inject(self) do |item, key|
           # Grab and strip the predicate from the path
           preds = /(.*)\[(.*)\]/.match(key)
-          if (!preds.nil?)
+          if (preds)
             # Right now, we can only return a specific value
             # Xpath supports expressions etc (e.g. [last()], [last()-1])
             # I initially tried JSONpath, but it was an abysmal performer
@@ -153,7 +153,6 @@ class Hash
           else
             if item.is_a?(Hash)
               if (!item[key])
-                service_log.warn("fetch_slice: The `#{path}` is missing from  item: \n `#{self}` \n\n")
                 return nil
               else
                 item[key]
@@ -166,7 +165,7 @@ class Hash
         end
       end
     rescue Exception => e
-      service_log.error("Tried to fetch slice for path #{path} from #{self} and failed. Sorry, boss. I'm a horrible computer. Error message: #{e.message}")
+      service_log.error("Tried to fetch slice for path `#{path}` from `#{self}` and failed. Error message: #{e.message}")
       raise e
     end
   end
@@ -174,13 +173,15 @@ class Hash
   # Start by supporting a few XPath predicates
   def fetch_predicate(item, matches)
     pred = matches[2]
-    array = item[matches[1]]
-    if pred == 'first()'
-      array.first
-    elsif pred == 'last()'
-      array.last
-    else
-      array[pred.to_i]
+    data = item[matches[1]]
+    if data.is_a?(Array)
+      if pred == 'first()'
+        data.first
+      elsif pred == 'last()'
+        data.last
+      else
+        data[pred.to_i]
+      end
     end
   end
 end

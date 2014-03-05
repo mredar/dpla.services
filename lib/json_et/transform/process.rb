@@ -75,7 +75,7 @@ module JsonEt
         if (enrichments)
           enrichments.each do |enrich|
             enrichment = (enrich['transform']['origin_path']) ? enrich['enrichment'].fetch_slice(enrich['transform']['origin_path']) : enrich['enrichment']
-            enrichment = enrichment.to_keyed_hash(enrich['transform']['origin_key_field_name'])
+            enrichment = (enrichment.is_a?(Array)) ? enrichment.to_keyed_hash(enrich['transform']['origin_key_field_name']) : enrichment
             output << { "config" => enrich['transform'], "enrichment" => enrichment }
           end
         end
@@ -94,7 +94,6 @@ module JsonEt
 
           # Get the field value(s) from a given field path
           field_vals = get_field_values(config, record)
-
           if (field_vals)
             # We get a single originating field path but pass the whole record
             # To allow processors to gather data from other fields
@@ -116,10 +115,12 @@ module JsonEt
 
         processors.each do |p|
           begin
-            if (p["args"].is_a?(Hash))
-              value = self.method(p["process"]).call(value, record, p["args"])
-            else
-              value = self.method(p["process"]).call(value, record, *p["args"])
+            if defined? p["process"]
+              if (p["args"].is_a?(Hash))
+                value = self.method(p["process"]).call(value, record, p["args"])
+              else
+                value = self.method(p["process"]).call(value, record, *p["args"])
+              end
             end
           rescue Exception => e
             msg = "Processor Error for #{p} on for value `#{value}` on record `#{record}. Error Message: #{e.message}"
@@ -210,10 +211,14 @@ module JsonEt
 
       # Recursively strip all elements in an array or a single string
       def rstrip(data, record)
-        if (data.is_a?(Array))
-          data.map! { |item| (item.is_a?(Array)) ? self.rstrip(item, record) : item.strip }
-        else
-          data.strip
+        if !data.nil?
+          if (data.is_a?(Array))
+            if !data.compact.empty?
+              data.map! { |item| (item.is_a?(Array)) ? self.rstrip(item, record) : item.strip }
+            end
+          else
+            data.strip
+          end
         end
       end
 
@@ -222,7 +227,7 @@ module JsonEt
         if (data.is_a?(Array))
           data.map! { |item| (item.is_a?(Array)) ? self.rsplit(item, record, split_by) : item.split(split_by) }
         else
-          data.split(split_by)
+          data = data.split(split_by)
         end
       end
 
@@ -245,13 +250,27 @@ module JsonEt
         if (data.is_a?(Array))
           data.map! { |item| (item.is_a?(Array)) ? self.gsub(item, record, args) : item.gsub(/#{args['pattern']}/, args['replacement']) }
         else
-          data.gsub(/#{args['pattern']}/, args['replacement'])
+          if data
+            data.gsub(/#{args['pattern']}/, args['replacement'])
+          end
         end
       end
 
       # Return a single element of an array
       def slice(item, record, slice)
-        item[slice.to_i]
+        if item.is_a?(Array)
+          if !item[slice.to_i].nil?
+            return item[slice.to_i]
+          else
+            return item
+          end
+        end
+      end
+
+      def join(item, record, join_by)
+        if item.is_a?(Array)
+          return item.join(join_by)
+        end
       end
 
       # Return a subset of an array
