@@ -75,7 +75,7 @@ module JsonEt
         if (enrichments)
           enrichments.each do |enrich|
             enrichment = (enrich['transform']['origin_path']) ? enrich['enrichment'].fetch_slice(enrich['transform']['origin_path']) : enrich['enrichment']
-            enrichment = (enrichment.is_a?(Array)) ? enrichment.to_keyed_hash(enrich['transform']['origin_key_field_name']) : enrichment
+            enrichment = (enrichment.respond_to?('to_keyed_hash')) ? enrichment.to_keyed_hash(enrich['transform']['origin_key_field_name']) : enrichment
             output << { "config" => enrich['transform'], "enrichment" => enrichment }
           end
         end

@@ -22,8 +22,7 @@ module JsonEt
       # Convenience method to return a regex matched value
       # TODO: move the string test out of this method
       def matched_value(value, pattern)
-        # If we get something other than a string at this point, punt
-        if (value.is_a?(String))
+        if (value.respond_to?('match'))
           match = value.match("#{pattern}")
           if (defined?(match[0]))
             match[0]
