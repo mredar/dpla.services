@@ -24,10 +24,12 @@ module Api
       private
         def extraction(key, params)
           if params['cache_response']
-            Rails.cache.fetch(key, :expires_in => 1.year) do
+            Rails.cache.fetch(key, :expires_in => params['cache_response']) do
               Extractor.fetch(params)
             end
           else
+            # Wipe any pre-existing keys
+            Rails.cache.delete(key)
             Extractor.fetch(params)
           end
         end
