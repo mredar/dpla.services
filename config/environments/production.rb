@@ -1,3 +1,6 @@
+# Testing - production doesn't seem to be initializing this constant
+APP_CONFIG = YAML.load_file("#{Rails.root}/config/config.yml")[Rails.env]
+
 DplaServices::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
