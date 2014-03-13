@@ -16,3 +16,4 @@ config/config.yml
 /tmp
 /unicorn
 .elasticbeanstalk/
+config/database.yml
