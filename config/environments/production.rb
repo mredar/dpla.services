@@ -61,7 +61,7 @@ DplaServices::Application.configure do
   #                                       :port => APP_CONFIG['redis']['port'],
   #                                       :db => APP_CONFIG['redis']['db'],
   #                                       :password => APP_CONFIG['redis']['password'] }
-  config.cache_store = :redis_store {:db => 'dpla_services' }
+  config.cache_store = :redis_store, {:db => 'dpla_services' }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
