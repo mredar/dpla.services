@@ -266,6 +266,7 @@ DEPENDENCIES
   rabl
   rails (= 4.0.2)
   rails_best_practices
+  rdoc
   redis-rails
   rest-client
   sass-rails (~> 4.0.0)
