@@ -47,7 +47,6 @@ gem 'unicorn'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'nokogiri'
 gem 'iconv'
 gem 'bootstrap-sass', '~> 2.3.2.1'
 gem 'actionpack-action_caching'
