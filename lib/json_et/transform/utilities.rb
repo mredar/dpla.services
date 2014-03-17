@@ -169,7 +169,8 @@ class Hash
     end
   end
 
-  # Start by supporting a few XPath predicates
+  # Start by supporting a few XPath predicates. If the item is not an array,
+  # just return it. This helps when an field can be either an array or a string
   def fetch_predicate(item, matches)
     pred = matches[2]
     data = item[matches[1]]
@@ -181,6 +182,8 @@ class Hash
       else
         data[pred.to_i]
       end
+    else
+      return data
     end
   end
 end
