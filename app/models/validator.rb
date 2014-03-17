@@ -1,18 +1,20 @@
+require 'yajl/json_gem'
 class Validator
       include ServiceLog
   def diff(params)
     a = JSON.parse(params[:record])
     b = dpla_json(CGI::unescape(params[:dpla_query_params]), params[:dpla_api_key])
     differ = JsonEt::Validate::Differ.new
-    differ.path_compare(a, b, dpla_fields)
+    JSON.pretty_generate({'diff' => differ.path_compare(a, b['docs'], dpla_fields), 'dpla_url' => b['url'] })
   end
 
   def dpla_json(query, api_key)
     data = ''
-    open("http://api.dp.la/v2/items?#{query}&api_key=#{api_key}",) { |d|
+    url = "http://api.dp.la/v2/items?#{query}&api_key=#{api_key}"
+    open(url) { |d|
       data = JSON.parse(d.read)
     }
-    data['docs'][0]
+    {'docs' => data['docs'][0], 'url' => url }
   end
 
   def dpla_fields
