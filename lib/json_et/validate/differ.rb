@@ -1,4 +1,3 @@
-require 'yajl/json_gem'
 require 'open-uri'
 
 module JsonEt
@@ -19,7 +18,7 @@ module JsonEt
         diffs['records'] << a
         diffs['records'] << b
 
-        JSON.pretty_generate(diffs)
+        diffs
       end
     end
   end
