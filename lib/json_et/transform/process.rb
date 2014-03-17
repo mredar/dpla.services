@@ -267,9 +267,12 @@ module JsonEt
         end
       end
 
+      # Wrapper for Ruby join method, return the object if it is not an array
       def join(item, record, join_by)
         if item.is_a?(Array)
           return item.join(join_by)
+        else
+          return item
         end
       end
 
