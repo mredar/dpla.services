@@ -213,6 +213,8 @@ module JsonEt
       def rstrip(data, record)
         if !data.nil?
           if (data.is_a?(Array))
+            # rip out any nils in the array itself
+            data.reject! { |c| c.nil? }
             if !data.compact.empty?
               data.map! { |item| (item.is_a?(Array)) ? self.rstrip(item, record) : item.strip }
             end
@@ -284,7 +286,6 @@ module JsonEt
         end
         slices
       end
-
     end
   end
 end
